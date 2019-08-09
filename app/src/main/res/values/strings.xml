@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Book</string>
+    <string name="title_home">Reading</string>
+    <string name="title_dashboard">To Read</string>
+    <string name="title_notifications">Finished</string>
+    <string name="cardBookTitle">Book Title</string>
+    <string name="cardBookAuthor">Book Author</string>
+    <string name="cardBookNotes">Notes</string>
+    <string name="dateStarted">Date Started: </string>
+    <string name="dateFinished">Date Finished: </string>
+    <string name="currentPage">Current Page: </string>
+    <string name="page">Page: </string>
+
+    <string name="addBookTitle">Title</string>
+    <string name="addBookTitleHint">Give the Title of the book</string>
+    <string name="addBookAuthor">Author</string>
+    <string name="addBookNotes">Notes on the book...</string>
+    <string name="addDateStarted">Date Started: </string>
+    <string name="addDateFinished">Date Finished: </string>
+    <string name="addProgressText">Book Progress:</string>
+    <string name="reason">Reason: </string>
+    <string name="toRead">To Read</string>
+    <string name="reading">Now Reading</string>
+    <string name="haveRead">Finished</string>
+    <string name="saveBTN">Save</string>
+
+</resources>
