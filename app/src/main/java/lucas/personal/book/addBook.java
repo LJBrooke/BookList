@@ -1,9 +1,10 @@
 package lucas.personal.book;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,9 +25,14 @@ public class addBook extends AppCompatActivity {
         saveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent returnToMain = new Intent(getApplicationContext(), lucas.personal.book.MainActivity.class);
-                startActivity(returnToMain);
+
+                finish();
             }
         });
+    }
+
+    public String getTextByID(int resourceID){
+        @SuppressLint("ResourceType") TextView Text = findViewById(resourceID);
+        return (String)Text.getText();
     }
 }

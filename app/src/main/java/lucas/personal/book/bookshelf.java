@@ -25,6 +25,7 @@ public class bookshelf {
 
     bookshelf(){
         checkNull();
+        //ToDO Move to New Thread
         loadBookList();
     }
 
@@ -210,7 +211,6 @@ public class bookshelf {
 
     protected void saveBookshelf(){
 
-        //ToDo Move to new thread.
         checkNull();
 
         if (titles!=null) {
@@ -242,7 +242,6 @@ public class bookshelf {
 
     private void loadBookList(){
 
-        //ToDo Move to new thread.
         SharedPreferences bookList = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
         String temp;
         temp = bookList.getString("titles", "not found");

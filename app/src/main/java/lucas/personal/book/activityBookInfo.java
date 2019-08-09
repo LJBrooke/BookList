@@ -42,11 +42,4 @@ public class activityBookInfo extends AppCompatActivity {
             }
         });
     }
-
-//    protected void viewBookCard(int i){
-//        cardAdaptor adapter = new cardAdaptor(this, titles, authors, notes);
-//        View v = adapter.viewBookCard(i);
-//
-//        setContentView(v);
-//    }
 }

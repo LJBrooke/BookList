@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void finish() {
 
+        //ToDo Move to new thread.
         books.saveBookshelf();
 
         super.finish();
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
         bookCards = findViewById(R.id.bookCards);
         //ToDo Create new method for this implementation.
-        cardAdaptor adapter = new cardAdaptor(this, book.getTitles, book.getAuthors(), book.getNotes(), book.getCurrentPage());
+        cardAdaptor adapter = new cardAdaptor(this, books.getTitles(), books.getAuthors(), books.getNotes(), books.getCurrentPage());
         bookCards.setAdapter(adapter);
     }
 
