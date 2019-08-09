@@ -23,9 +23,9 @@ public class bookshelf {
     private ArrayList<String> finish;
     private ArrayList<String> currentPage;
 
-    private bookshelf(){
+    bookshelf(){
         checkNull();
-        getBookList();
+        loadBookList();
     }
 
     public void addBook(String title, String author, String note, String start, String finish, String page, int category){
@@ -181,7 +181,34 @@ public class bookshelf {
 
     public int getIndex(String title){return titles.lastIndexOf(title);}
 
-    public void saveBookshelf(){
+    /**
+     * Takes the index from a category and returns the overall index.
+     * @param i the index of the book in the current category.
+     * @return the ovrall index of the book.
+     */
+    public int getIndex(int i){
+        if (currentCategory==0){return reading.get(i);}
+        else if (currentCategory==1) {return toRead.get(i);}
+        return haveRead.get(i);
+    }
+
+    public ArrayList<Integer> getCatBooks(){
+        if (currentCategory==0) {return reading;}
+        else if (currentCategory==1) {return toRead;}
+        return haveRead;
+    }
+
+    public void setCurrentCategory(int newCategory){currentCategory=newCategory;}
+
+    public ArrayList<String> getTitles(){return titles;}
+
+    public ArrayList<String> getAuthors(){return authors;}
+
+    public ArrayList<String> getNotes(){return notes;}
+
+    public ArrayList<String> getCurrentPage(){return currentPage;}
+
+    protected void saveBookshelf(){
 
         //ToDo Move to new thread.
         checkNull();
@@ -213,7 +240,7 @@ public class bookshelf {
         }
     }
 
-    private void getBookList(){
+    private void loadBookList(){
 
         //ToDo Move to new thread.
         SharedPreferences bookList = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
@@ -237,8 +264,6 @@ public class bookshelf {
         temp = bookList.getString("reading", "not found");
         reading = processJsonInt(temp);
     }
-
-    public int getCurrentCategory(){return  currentCategory;}
 
     private void removeFromCategory(int i){
         int d;
