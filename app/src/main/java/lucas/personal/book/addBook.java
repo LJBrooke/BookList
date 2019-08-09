@@ -1,6 +1,5 @@
 package lucas.personal.book;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,9 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.ArrayList;
+
 public class addBook extends AppCompatActivity {
 
     TabLayout tabLayout;
+    ArrayList<String> newBook;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,14 +28,27 @@ public class addBook extends AppCompatActivity {
         saveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                newBook = getBook();
                 finish();
             }
         });
     }
 
-    public String getTextByID(int resourceID){
-        @SuppressLint("ResourceType") TextView Text = findViewById(resourceID);
-        return (String)Text.getText();
+    private ArrayList<String> getBook() {
+        ArrayList<String> book = new ArrayList<>();
+        TextView temp = findViewById(R.id.bookTitle);
+        book.set(0, temp.toString());
+        temp = findViewById(R.id.bookAuthor);
+        book.set(1, temp.toString());
+        temp = findViewById(R.id.dateStarted);
+        book.set(3, temp.toString());
+        temp = findViewById(R.id.dateFinished);
+        book.set(4, temp.toString());
+        temp = findViewById(R.id.bookNotes);
+        book.set(2, temp.toString());
+        temp = findViewById(R.id.page);
+        book.set(5, temp.toString());
+
+        return book;
     }
 }

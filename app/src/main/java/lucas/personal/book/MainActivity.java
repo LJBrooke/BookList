@@ -1,7 +1,6 @@
 package lucas.personal.book;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-    public SharedPreferences.Editor bookList;
     ListView bookCards;
-    private bookshelf books;
+    bookshelf books;
     private ArrayList<String> book;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -91,16 +89,10 @@ public class MainActivity extends AppCompatActivity {
 
         Intent addBook = new Intent(this, lucas.personal.book.addBook.class);
         startActivity(addBook);
-    }
-
-    /**
-     * Adds relevant info to the arrays.
-     * @param info Arraylist containing an entry for each array. in the form
-     *             {Title, Author, Note, Start, Finish, Page, Category}
-     * Todo Implement
-     */
-    protected void addBookInfo(ArrayList<String> info, int category){
-        books.addBook(info, category);
+        ArrayList<String> newBook = addBook.getStringArrayListExtra("newBook");
+        int category;
+        category = 0; //ToDo implement method to get Category.
+        books.addBook(newBook, category);
     }
 
     protected void viewBookCard(int i){

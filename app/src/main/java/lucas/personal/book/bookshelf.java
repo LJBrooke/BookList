@@ -1,8 +1,5 @@
 package lucas.personal.book;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
@@ -211,57 +208,61 @@ public class bookshelf {
 
     protected void saveBookshelf(){
 
-        checkNull();
+        return; // ToDo Implement Shared Prefs properly.
 
-        if (titles!=null) {
-            SharedPreferences bookListCurrent = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
-            SharedPreferences.Editor bookList = bookListCurrent.edit();
-
-            JSONArray jsonReading = new JSONArray(reading);
-            JSONArray jsonToRead = new JSONArray(toRead);
-            JSONArray jsonHaveRead = new JSONArray(haveRead);
-            JSONArray jsonTitles = new JSONArray(titles);
-            JSONArray jsonAuthors = new JSONArray(authors);
-            JSONArray jsonNotes = new JSONArray(notes);
-            JSONArray jsonStart = new JSONArray(start);
-            JSONArray jsonFinish = new JSONArray(finish);
-            JSONArray jsonPage = new JSONArray(currentPage);
-
-            bookList.putString("toRead", jsonToRead.toString());
-            bookList.putString("reading", jsonReading.toString());
-            bookList.putString("haveRead", jsonHaveRead.toString());
-            bookList.putString("titles", jsonTitles.toString());
-            bookList.putString("authors", jsonAuthors.toString());
-            bookList.putString("notes", jsonNotes.toString());
-            bookList.putString("start", jsonStart.toString());
-            bookList.putString("finish", jsonFinish.toString());
-            bookList.putString("page", jsonPage.toString());
-            bookList.apply();
-        }
+//        checkNull();
+//
+//        if (titles!=null) {
+//            SharedPreferences bookListCurrent = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
+//            SharedPreferences.Editor bookList = bookListCurrent.edit();
+//
+//            JSONArray jsonReading = new JSONArray(reading);
+//            JSONArray jsonToRead = new JSONArray(toRead);
+//            JSONArray jsonHaveRead = new JSONArray(haveRead);
+//            JSONArray jsonTitles = new JSONArray(titles);
+//            JSONArray jsonAuthors = new JSONArray(authors);
+//            JSONArray jsonNotes = new JSONArray(notes);
+//            JSONArray jsonStart = new JSONArray(start);
+//            JSONArray jsonFinish = new JSONArray(finish);
+//            JSONArray jsonPage = new JSONArray(currentPage);
+//
+//            bookList.putString("toRead", jsonToRead.toString());
+//            bookList.putString("reading", jsonReading.toString());
+//            bookList.putString("haveRead", jsonHaveRead.toString());
+//            bookList.putString("titles", jsonTitles.toString());
+//            bookList.putString("authors", jsonAuthors.toString());
+//            bookList.putString("notes", jsonNotes.toString());
+//            bookList.putString("start", jsonStart.toString());
+//            bookList.putString("finish", jsonFinish.toString());
+//            bookList.putString("page", jsonPage.toString());
+//            bookList.apply();
+//        }
     }
 
     private void loadBookList(){
 
-        SharedPreferences bookList = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
-        String temp;
-        temp = bookList.getString("titles", "not found");
-        titles = processJson(temp);
-        temp = bookList.getString("authors", "not found");
-        authors = processJson(temp);
-        temp = bookList.getString("notes", "not found");
-        notes = processJson(temp);
-        temp = bookList.getString("start", "not found");
-        start = processJson(temp);
-        temp = bookList.getString("finish", "not found");
-        finish = processJson(temp);
-        temp = bookList.getString("page", "not found");
-        currentPage = processJson(temp);
-        temp = bookList.getString("toRead", "not found");
-        toRead = processJsonInt(temp);
-        temp = bookList.getString("haveRead", "not found");
-        haveRead = processJsonInt(temp);
-        temp = bookList.getString("reading", "not found");
-        reading = processJsonInt(temp);
+        return; // ToDo Implement Shared Prefs properly.
+
+//        SharedPreferences bookList = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
+//        String temp;
+//        temp = bookList.getString("titles", "not found");
+//        titles = processJson(temp);
+//        temp = bookList.getString("authors", "not found");
+//        authors = processJson(temp);
+//        temp = bookList.getString("notes", "not found");
+//        notes = processJson(temp);
+//        temp = bookList.getString("start", "not found");
+//        start = processJson(temp);
+//        temp = bookList.getString("finish", "not found");
+//        finish = processJson(temp);
+//        temp = bookList.getString("page", "not found");
+//        currentPage = processJson(temp);
+//        temp = bookList.getString("toRead", "not found");
+//        toRead = processJsonInt(temp);
+//        temp = bookList.getString("haveRead", "not found");
+//        haveRead = processJsonInt(temp);
+//        temp = bookList.getString("reading", "not found");
+//        reading = processJsonInt(temp);
     }
 
     private void removeFromCategory(int i){
