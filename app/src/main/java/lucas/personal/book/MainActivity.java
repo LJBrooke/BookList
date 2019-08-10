@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        books = new bookshelf();
+
         showCategoryCards(books.getCatBooks());
         FloatingActionButton addBook = findViewById(R.id.addBookFAB);
         addBook.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        books = new bookshelf();
+
 
         showCategoryCards(books.getCatBooks());
 

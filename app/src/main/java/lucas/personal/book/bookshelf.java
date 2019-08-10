@@ -51,13 +51,14 @@ public class bookshelf {
             case 1: {toRead.add(titles.size());}
             case 2: {haveRead.add(titles.size());}
         }
-
-        titles.add(book.get(0));
-        authors.add(book.get(1));
-        notes.add(book.get(2));
-        this.start.add(book.get(3));
-        this.finish.add(book.get(4));
-        currentPage.add(book.get(5));
+        try {
+            titles.add(book.get(0));
+            authors.add(book.get(1));
+            notes.add(book.get(2));
+            this.start.add(book.get(3));
+            this.finish.add(book.get(4));
+            currentPage.add(book.get(5));
+        } catch (NullPointerException e){return;}
     }
 
     public void editBook(String oldTitle, String title, String author, String note, String start, String finish, String page, int category){
@@ -298,7 +299,9 @@ public class bookshelf {
     }
 
     private void checkNull(){
-        if (titles == null){
+        try{
+            titles.size();
+        }catch (NullPointerException e){
             titles = new ArrayList<>();
             authors = new ArrayList<>();
             notes = new ArrayList<>();
