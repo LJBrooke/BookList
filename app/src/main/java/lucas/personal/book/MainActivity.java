@@ -73,6 +73,15 @@ public class MainActivity extends AppCompatActivity {
                 viewBookCard(i);
             }
         });
+
+        bookCards.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                bookshelf.deleteBook(i);
+                onStart();
+                return true;
+            }
+        });
     }
 
     @Override

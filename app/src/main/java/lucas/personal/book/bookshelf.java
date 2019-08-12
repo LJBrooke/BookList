@@ -148,17 +148,20 @@ public class bookshelf {
     }
 
     public static void deleteBook(int i){
+        // ToDo add prompt.
         if (titles== null){return;}
 
-        removeFromCategory(i);
-        correctIndex(i);
+        int n = getIndex(i);
 
-        titles.remove(i);
-        authors.remove(i);
-        notes.remove(i);
-        start.remove(i);
-        finish.remove(i);
-        currentPage.remove(i);
+        removeFromCategory(n);
+        correctIndex(n);
+
+        titles.remove(n);
+        authors.remove(n);
+        notes.remove(n);
+        start.remove(n);
+        finish.remove(n);
+        currentPage.remove(n);
     }
 
     public static void deleteBook(ArrayList<String> book){
