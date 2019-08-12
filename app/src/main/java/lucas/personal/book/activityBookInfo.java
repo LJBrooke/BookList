@@ -1,12 +1,14 @@
 package lucas.personal.book;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 public class activityBookInfo extends AppCompatActivity {
 
@@ -37,9 +39,22 @@ public class activityBookInfo extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Takes user to an edit screen", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent editBook = new Intent(getApplicationContext(), lucas.personal.book.addBook.class);
+                editBook.putStringArrayListExtra("lucas.personal.book.BOOKTOEDIT", getBookInfo());
+                startActivity(editBook);
+                finish();
             }
         });
+    }
+
+    private ArrayList<String> getBookInfo(){
+        ArrayList<String> book = new ArrayList<>(6);
+        book.add(title);
+        book.add(author);
+        book.add(note);
+        book.add(start);
+        book.add(finish);
+        book.add(page);
+        return book;
     }
 }

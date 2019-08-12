@@ -1,5 +1,6 @@
 package lucas.personal.book;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,12 +16,15 @@ import java.util.ArrayList;
 
 public class addBook extends AppCompatActivity {
 
+    Intent intent;
     ViewPager pager;
     TabLayout tabLayout;
     TabItem toRead;
     TabItem nowReading;
     TabItem haveRead;
-    ArrayList<String> newBook;
+
+    ArrayList<String> book;
+    String oldTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,12 @@ public class addBook extends AppCompatActivity {
         nowReading = findViewById(R.id.tabNowReading);
         haveRead = findViewById(R.id.tabHaveRead);
 
+	    intent = getIntent();
+        if (intent.hasExtra("lucas.personal.book.BOOKTOEDIT")){
+        	book = intent.getStringArrayListExtra("lucas.personal.book.BOOKTOEDIT");
+        	setInfo(book);
+        }
+
         //ToDo Properly assign tab usage.
 
         tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
@@ -40,7 +50,12 @@ public class addBook extends AppCompatActivity {
         saveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!intent.hasExtra("lucas.personal.book.BOOKTOEDIT")){
                 bookshelf.addBook(getBook(), 0);
+                finish();
+                return;
+                }
+                bookshelf.editBook(oldTitle, getBook(),0);
                 finish();
             }
         });
@@ -65,6 +80,22 @@ public class addBook extends AppCompatActivity {
         toRead.setVisibility(View.INVISIBLE);
         haveRead.setVisibility(View.VISIBLE);
         return haveRead;
+    }
+
+    private void setInfo(ArrayList<String> info){
+	    TextView temp = findViewById(R.id.bookTitle);
+	    temp.setText(info.get(0));
+        oldTitle = temp.getText().toString();
+        temp = findViewById(R.id.bookAuthor);
+	    temp.setText(info.get(1));
+	    temp = findViewById(R.id.bookNotes);
+	    temp.setText(info.get(2));
+	    temp = findViewById(R.id.dateStarted);
+	    temp.setText(info.get(3));
+	    temp = findViewById(R.id.dateFinished);
+	    temp.setText(info.get(4));
+	    temp = findViewById(R.id.page);
+	    temp.setText(info.get(5));
     }
 
     private ArrayList<String> getBook() {

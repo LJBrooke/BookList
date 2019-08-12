@@ -49,7 +49,6 @@ public class bookshelf {
         if (category==0){reading.add(titles.size());}
         else if (category==1){toRead.add(titles.size());}
         else if (category==2){haveRead.add(titles.size());}
-        System.out.println("Bar bookshelf About to add book"); // Debug Variable
         try {
             titles.add(newBook.get(0));
             authors.add(newBook.get(1));
@@ -57,7 +56,6 @@ public class bookshelf {
             start.add(newBook.get(3));
             finish.add(newBook.get(4));
             currentPage.add(newBook.get(5));
-            System.out.println("Bar bookshelf added currentPage"); // Debug Variable
         } catch (NullPointerException e){}
     }
 
@@ -101,23 +99,21 @@ public class bookshelf {
     public static void editBook(String oldTitle, ArrayList<String> book, int category){
         checkNull();
 
-        int index = titles.lastIndexOf(oldTitle);
+        int index = titles.indexOf(oldTitle);
         removeFromCategory(index);
-        switch (category){
-            case 0: {
-                reading.add(titles.size()-1);
-                book.set(4, "");
-            }
-            case 1: {
-                toRead.add(titles.size()-1);
-                book.set(3,"");
-                book.set(4, "");
-                book.set(5, "");
-            }
-            case 2: {
-                haveRead.add(titles.size()-1);
-                book.set(5, "");
-            }
+        if (category==0){
+            reading.add(titles.size()-1);
+            book.set(4, "");
+        }
+        else if (category==1){
+            toRead.add(titles.size()-1);
+            book.set(3,"");
+            book.set(4, "");
+            book.set(5, "");
+        }
+        else if (category==2){
+            haveRead.add(titles.size()-1);
+            book.set(5, "");
         }
 
         titles.set(index, book.get(0));
