@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.google.android.material.tabs.TabItem;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
@@ -16,12 +17,10 @@ public class addBook extends AppCompatActivity {
 
     ViewPager pager;
     TabLayout tabLayout;
+    TabItem toRead;
+    TabItem nowReading;
+    TabItem haveRead;
     ArrayList<String> newBook;
-
-    View toRead = findViewById(R.id.toRead);
-    View nowReading = findViewById(R.id.nowReading);
-    View haveRead = findViewById(R.id.haveRead);
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +28,9 @@ public class addBook extends AppCompatActivity {
         setContentView(R.layout.activity_add_book);
 
         tabLayout = findViewById(R.id.tabLayout);
+        toRead = findViewById(R.id.tabToRead);
+        nowReading = findViewById(R.id.tabNowReading);
+        haveRead = findViewById(R.id.tabHaveRead);
 
         //ToDo Properly assign tab usage.
 
@@ -38,7 +40,7 @@ public class addBook extends AppCompatActivity {
         saveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                newBook = getBook();
+                bookshelf.addBook(getBook(), 0);
                 finish();
             }
         });
@@ -68,17 +70,17 @@ public class addBook extends AppCompatActivity {
     private ArrayList<String> getBook() {
         ArrayList<String> book = new ArrayList<>(6);
         TextView temp = findViewById(R.id.bookTitle);
-        book.add(temp.toString());
+        book.add(temp.getText().toString());
         temp = findViewById(R.id.bookAuthor);
-        book.add(temp.toString());
+        book.add(temp.getText().toString());
         temp = findViewById(R.id.bookNotes);
-        book.add(temp.toString());
+        book.add(temp.getText().toString());
         temp = findViewById(R.id.dateStarted);
-        book.add(temp.toString());
+        book.add(temp.getText().toString());
         temp = findViewById(R.id.dateFinished);
-        book.add(temp.toString());
+        book.add(temp.getText().toString());
         temp = findViewById(R.id.page);
-        book.add(temp.toString());
+        book.add(temp.getText().toString());
 
         return book;
     }

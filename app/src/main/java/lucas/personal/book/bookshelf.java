@@ -7,18 +7,18 @@ import java.util.ArrayList;
 
 public class bookshelf {
     // Shelf Info:
-    private ArrayList<Integer> reading;
-    private ArrayList<Integer> toRead;
-    private ArrayList<Integer> haveRead;
-    private int currentCategory;
+    private static ArrayList<Integer> reading;
+    private static ArrayList<Integer> toRead;
+    private static ArrayList<Integer> haveRead;
+    private static int currentCategory;
 
     // Book Info:
-    private ArrayList<String> titles;
-    private ArrayList<String> authors;
-    private ArrayList<String> notes;
-    private ArrayList<String> start;
-    private ArrayList<String> finish;
-    private ArrayList<String> currentPage;
+    private static ArrayList<String> titles;
+    private static ArrayList<String> authors;
+    private static ArrayList<String> notes;
+    private static ArrayList<String> start;
+    private static ArrayList<String> finish;
+    private static ArrayList<String> currentPage;
 
     bookshelf(){
         checkNull();
@@ -26,7 +26,7 @@ public class bookshelf {
         loadBookList();
     }
 
-    public void addBook(String title, String author, String note, String start, String finish, String page, int category){
+    public static void addBook(String title, String author, String note, String startDate, String finishDate, String page, int category){
         checkNull();
 
         switch (category){
@@ -38,30 +38,30 @@ public class bookshelf {
         titles.add(title);
         authors.add(author);
         notes.add(note);
-        this.start.add(start);
-        this.finish.add(finish);
+        start.add(startDate);
+        finish.add(finishDate);
         currentPage.add(page);
     }
 
-    public void addBook(ArrayList<String> book, int category){
+    public static void addBook(ArrayList<String> newBook, int category){
         checkNull();
 
-        switch (category){
-            case 0: {reading.add(titles.size());}
-            case 1: {toRead.add(titles.size());}
-            case 2: {haveRead.add(titles.size());}
-        }
+        if (category==0){reading.add(titles.size());}
+        else if (category==1){toRead.add(titles.size());}
+        else if (category==2){haveRead.add(titles.size());}
+        System.out.println("Bar bookshelf About to add book"); // Debug Variable
         try {
-            titles.add(book.get(0));
-            authors.add(book.get(1));
-            notes.add(book.get(2));
-            this.start.add(book.get(3));
-            this.finish.add(book.get(4));
-            currentPage.add(book.get(5));
-        } catch (NullPointerException e){return;}
+            titles.add(newBook.get(0));
+            authors.add(newBook.get(1));
+            notes.add(newBook.get(2));
+            start.add(newBook.get(3));
+            finish.add(newBook.get(4));
+            currentPage.add(newBook.get(5));
+            System.out.println("Bar bookshelf added currentPage"); // Debug Variable
+        } catch (NullPointerException e){}
     }
 
-    public void editBook(String oldTitle, String title, String author, String note, String start, String finish, String page, int category){
+    public static void editBook(String oldTitle, String title, String author, String note, String startDate, String finishDate, String page, int category){
         checkNull();
 
         int index = titles.lastIndexOf(oldTitle);
@@ -69,12 +69,12 @@ public class bookshelf {
         switch (category){
             case 0: {
                 reading.add(titles.size()-1);
-                finish = "";
+                finishDate = "";
             }
             case 1: {
                 toRead.add(titles.size()-1);
-                start = "";
-                finish = "";
+                startDate = "";
+                finishDate = "";
                 page = "";
             }
             case 2: {
@@ -86,8 +86,8 @@ public class bookshelf {
         titles.set(index, title);
         authors.set(index, author);
         notes.set(index, note);
-        this.start.set(index, start);
-        this.finish.set(index, finish);
+        start.set(index, startDate);
+        finish.set(index, finishDate);
         currentPage.set(index, page);
     }
 
@@ -98,7 +98,7 @@ public class bookshelf {
      *             {Title, Author, Notes, Start, Finish, Page}
      * @param category The new category for the book.
      */
-    public void editBook(String oldTitle, ArrayList<String> book, int category){
+    public static void editBook(String oldTitle, ArrayList<String> book, int category){
         checkNull();
 
         int index = titles.lastIndexOf(oldTitle);
@@ -123,8 +123,8 @@ public class bookshelf {
         titles.set(index, book.get(0));
         authors.set(index, book.get(1));
         notes.set(index, book.get(2));
-        this.start.set(index, book.get(3));
-        this.finish.set(index, book.get(4));
+        start.set(index, book.get(3));
+        finish.set(index, book.get(4));
         currentPage.set(index, book.get(5));
     }
 
@@ -134,19 +134,20 @@ public class bookshelf {
      * @return an ArrayList containing all relevant info on the desired book.
      * in the format {Title, Author, Notes, Start, Finish, Page}
      */
-    public ArrayList<String> getBook(int index){
-        ArrayList<String> book = new ArrayList<>();
-        book.add(titles.get(index));
-        book.add(authors.get(index));
-        book.add(notes.get(index));
-        book.add(start.get(index));
-        book.add(finish.get(index));
-        book.add(currentPage.get(index));
-
+    public static ArrayList<String> getBook(int index){
+        ArrayList<String> book = new ArrayList<>(6);
+        if (titles.size()>0) {
+            book.add(titles.get(index));
+            book.add(authors.get(index));
+            book.add(notes.get(index));
+            book.add(start.get(index));
+            book.add(finish.get(index));
+            book.add(currentPage.get(index));
+        }
         return book;
     }
 
-    public void deleteBook(int i){
+    public static void deleteBook(int i){
         if (titles== null){return;}
 
         removeFromCategory(i);
@@ -160,7 +161,7 @@ public class bookshelf {
         currentPage.remove(i);
     }
 
-    public void deleteBook(ArrayList<String> book){
+    public static void deleteBook(ArrayList<String> book){
         if (titles== null){return;}
 
         int i = getIndex(book.get(0));
@@ -176,38 +177,48 @@ public class bookshelf {
         currentPage.remove(i);
     }
 
-    public boolean onBookshelf(String title){return  titles.contains(title);}
+    public static boolean onBookshelf(String title){return  titles.contains(title);}
 
-    public int getIndex(String title){return titles.lastIndexOf(title);}
+    public static int getIndex(String title){return titles.lastIndexOf(title);}
 
     /**
      * Takes the index from a category and returns the overall index.
      * @param i the index of the book in the current category.
      * @return the ovrall index of the book.
      */
-    public int getIndex(int i){
+    public static int getIndex(int i){
         if (currentCategory==0){return reading.get(i);}
         else if (currentCategory==1) {return toRead.get(i);}
         return haveRead.get(i);
     }
 
-    public ArrayList<Integer> getCatBooks(){
-        if (currentCategory==0) {return reading;}
-        else if (currentCategory==1) {return toRead;}
-        return haveRead;
+    public static ArrayList<Integer> getCatBooks(){
+        if (currentCategory==0) {
+            if (reading==null){return new ArrayList<Integer>();}
+            return reading;
+        }
+        else if (currentCategory==1) {
+            if (toRead==null){return new ArrayList<Integer>();}
+            return toRead;
+        }
+        else if (currentCategory==2) {
+            if (haveRead == null) {return new ArrayList<Integer>();}
+            return haveRead;
+        }
+        return null;
     }
 
-    public void setCurrentCategory(int newCategory){currentCategory=newCategory;}
+    public static void setCurrentCategory(int newCategory){currentCategory=newCategory;}
 
-    public ArrayList<String> getTitles(){return titles;}
+    public static ArrayList<String> getTitles(){return titles;}
 
-    public ArrayList<String> getAuthors(){return authors;}
+    public static ArrayList<String> getAuthors(){return authors;}
 
-    public ArrayList<String> getNotes(){return notes;}
+    public static ArrayList<String> getNotes(){return notes;}
 
-    public ArrayList<String> getCurrentPage(){return currentPage;}
+    public static ArrayList<String> getCurrentPage(){return currentPage;}
 
-    protected void saveBookshelf(){
+    protected static void saveBookshelf(){
 
         return; // ToDo Implement Shared Prefs properly.
 
@@ -240,7 +251,7 @@ public class bookshelf {
 //        }
     }
 
-    private void loadBookList(){
+    private static void loadBookList(){
 
         return; // ToDo Implement Shared Prefs properly.
 
@@ -266,7 +277,7 @@ public class bookshelf {
 //        reading = processJsonInt(temp);
     }
 
-    private void removeFromCategory(int i){
+    private static void removeFromCategory(int i){
         int d;
         if (reading.contains(i)){
             d = reading.indexOf(i);
@@ -282,7 +293,7 @@ public class bookshelf {
         }
     }
 
-    private void correctIndex(int i){
+    private static void correctIndex(int i){
         int value;
         for (int n = 0; n<reading.size(); n++){
             value = reading.get(n);
@@ -298,7 +309,7 @@ public class bookshelf {
         }
     }
 
-    private void checkNull(){
+    private static void checkNull(){
         try{
             titles.size();
         }catch (NullPointerException e){

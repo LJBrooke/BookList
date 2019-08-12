@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ListView bookCards;
-    bookshelf books;
-    private ArrayList<String> book;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -27,15 +25,15 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    books.setCurrentCategory(0);
+                    bookshelf.setCurrentCategory(0);
                     onStart();
                     return true;
                 case R.id.navigation_dashboard:
-                    books.setCurrentCategory(1);
+                    bookshelf.setCurrentCategory(1);
                     onStart();
                     return true;
                 case R.id.navigation_notifications:
-                    books.setCurrentCategory(2);
+                    bookshelf.setCurrentCategory(2);
                     onStart();
                     return true;
             }
@@ -51,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        books = new bookshelf();
+//        bookshelf = new bookshelf();
 
-        showCategoryCards(books.getCatBooks());
+        showCategoryCards(bookshelf.getCatBooks());
         FloatingActionButton addBook = findViewById(R.id.addBookFAB);
         addBook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-
-        showCategoryCards(books.getCatBooks());
+        showCategoryCards(bookshelf.getCatBooks());
 
         bookCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
     public void finish() {
 
         //ToDo Move to new thread.
-        books.saveBookshelf();
+        bookshelf.saveBookshelf();
 
         super.finish();
     }
@@ -91,16 +88,13 @@ public class MainActivity extends AppCompatActivity {
 
         Intent addBook = new Intent(this, lucas.personal.book.addBook.class);
         startActivity(addBook);
-        ArrayList<String> newBook = addBook.getStringArrayListExtra("newBook");
-        int category;
-        category = 0; //ToDo implement method to get Category.
-        books.addBook(newBook, category);
+        onStart();
     }
 
     protected void viewBookCard(int i){
         Intent viewBook = new Intent(getApplicationContext(), activityBookInfo.class);
-        int n = books.getIndex(i);
-        book = books.getBook(n);
+        int n = bookshelf.getIndex(i);
+        ArrayList<String> book = bookshelf.getBook(n);
         viewBook.putExtra("lucas.personal.book.TITLE", book.get(0));
         viewBook.putExtra("lucas.personal.book.AUTHOR", book.get(1));
         viewBook.putExtra("lucas.personal.book.NOTE", book.get(2));
@@ -115,27 +109,31 @@ public class MainActivity extends AppCompatActivity {
 
         bookCards = findViewById(R.id.bookCards);
         //ToDo Create new method for this implementation.
-        cardAdaptor adapter = new cardAdaptor(this, books.getTitles(), books.getAuthors(), books.getNotes(), books.getCurrentPage());
+        cardAdaptor adapter = new cardAdaptor(this, bookshelf.getTitles(), bookshelf.getAuthors(), bookshelf.getNotes(), bookshelf.getCurrentPage());
         bookCards.setAdapter(adapter);
     }
 
     protected void showCategoryCards(ArrayList<Integer> category){
 
         int size = category.size();
-        ArrayList<String> catTitles = new ArrayList<>();
-        ArrayList<String> catAuthors = new ArrayList<>();
-        ArrayList<String> catNotes = new ArrayList<>();
-        ArrayList<String> catCurrentPage = new ArrayList<>();
+        ArrayList<String> catTitles = new ArrayList<>(size);
+        ArrayList<String> catAuthors = new ArrayList<>(size);
+        ArrayList<String> catNotes = new ArrayList<>(size);
+        ArrayList<String> catCurrentPage = new ArrayList<>(size);
 
         int n;
-        for (int i=0; i<size; i++){
-            n = category.get(i);
-            book = books.getBook(n);
+        if (size>0) {
+            ArrayList<String> book;
+            for (int i = 0; i < size; i++) {
+                n = category.get(i);
 
-            catTitles.set(i, book.get(0));
-            catAuthors.set(i, book.get(1));
-            catNotes.set(i, book.get(2));
-            catCurrentPage.set(i, book.get(5));
+                book = bookshelf.getBook(n);
+
+                catTitles.add(i, book.get(0));
+                catAuthors.add(i, book.get(1));
+                catNotes.add(i, book.get(2));
+                catCurrentPage.add(i, book.get(5));
+            }
         }
 
         bookCards = findViewById(R.id.bookCards);
