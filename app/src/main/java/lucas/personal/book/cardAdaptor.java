@@ -72,13 +72,12 @@ public class cardAdaptor extends BaseAdapter {
         TextView startView = v.findViewById(R.id.cardDateStarted);
         TextView endView = v.findViewById(R.id.cardDateFinished);
 
-        System.out.println("Foo start: "+start);
         titleView.setText(title);
         authorView.setText(author);
         noteView.setText(note);
         startView.setText(start);
         if (finish.equals("")){
-            endView = v.findViewById(R.id.cardDateFinished);
+            endView = v.findViewById(R.id.dateFinishedText);
             String curPage = "";
             if (!start.equals("")){
                 curPage = "Page: " + page;

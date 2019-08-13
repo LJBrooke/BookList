@@ -7,21 +7,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.material.tabs.TabItem;
-import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
 public class addBook extends AppCompatActivity {
 
     Intent intent;
-    ViewPager pager;
-    TabLayout tabLayout;
-    TabItem toRead;
-    TabItem nowReading;
-    TabItem haveRead;
 
     String oldTitle;
 
@@ -30,66 +21,24 @@ public class addBook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_book);
 
-        tabLayout = findViewById(R.id.tabLayout);
-        toRead = findViewById(R.id.tabToRead);
-        nowReading = findViewById(R.id.tabNowReading);
-        haveRead = findViewById(R.id.tabHaveRead);
-
 	    intent = getIntent();
         if (intent.hasExtra("lucas.personal.book.BOOKTOEDIT")){
             setInfo(intent.getStringArrayListExtra("lucas.personal.book.BOOKTOEDIT"));
         }
-
-        //ToDo Properly assign tab usage.
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
 
         Button saveBook = findViewById(R.id.saveBook);
         saveBook.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!intent.hasExtra("lucas.personal.book.BOOKTOEDIT")){
-                    bookshelf.addBook(getBook(), 0);
+                    bookshelf.addBook(getBook());
                     finish();
                     return;
                 }
-                bookshelf.editBook(oldTitle,getBook() ,0);
+                bookshelf.editBook(oldTitle, getBook());
                 finish();
             }
         });
-    }
-
-    /**
-     * Sets the nowReading tab to visible.
-     * @return the nowReading View.
-     */
-    private View setNowReading(){
-        nowReading.setVisibility(View.VISIBLE);
-        toRead.setVisibility(View.INVISIBLE);
-        haveRead.setVisibility(View.INVISIBLE);
-        return nowReading;
-    }
-
-    /**
-     * Sets the toReas tab to visible.
-     * @return the toRead View.
-     */
-    private View setToRead(){
-        nowReading.setVisibility(View.INVISIBLE);
-        toRead.setVisibility(View.VISIBLE);
-        haveRead.setVisibility(View.INVISIBLE);
-        return toRead;
-    }
-
-    /**
-     * Sets the haveReading tab to visible.
-     * @return the haveRead View.
-     */
-    private View setHaveRead(){
-        nowReading.setVisibility(View.INVISIBLE);
-        toRead.setVisibility(View.INVISIBLE);
-        haveRead.setVisibility(View.VISIBLE);
-        return haveRead;
     }
 
     /**
@@ -98,8 +47,8 @@ public class addBook extends AppCompatActivity {
      */
     private void setInfo(ArrayList<String> info){
 	    TextView temp = findViewById(R.id.bookTitle);
-        oldTitle = temp.getText().toString();
         temp.setText(info.get(0));
+        oldTitle = temp.getText().toString();
         temp = findViewById(R.id.bookAuthor);
 	    temp.setText(info.get(1));
 	    temp = findViewById(R.id.bookNotes);

@@ -26,7 +26,7 @@ public class activityBookInfo extends AppCompatActivity {
 
         setBookInfo();
 
-        View v = cardAdaptor.displayBookCard(this, title,author,note, start, finish, page);
+        View v = cardAdaptor.displayBookCard(this, title,author ,note, start, finish, page);
 
         setContentView(v);
 

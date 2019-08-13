@@ -48,11 +48,10 @@ public class bookshelf {
      * Function to add the provided book.
      * @param newBook ArrayList of values for the book, in the format:
      *      *             {Title, Author, Notes, Start, Finish, Page}
-     * @param category The new category for the book.
      */
-    public static void addBook(ArrayList<String> newBook, int category){
+    public static void addBook(ArrayList<String> newBook){
         checkNull();
-
+        int category = detCategory(newBook.get(3), newBook.get(4));
         if (category==0){reading.add(titles.size());}
         else if (category==1){toRead.add(titles.size());}
         else if (category==2){haveRead.add(titles.size());}
@@ -64,6 +63,7 @@ public class bookshelf {
             finish.add(newBook.get(4));
             currentPage.add(newBook.get(5));
         } catch (NullPointerException e){}
+        System.out.println("Foo newBook: "+newBook.toString());
     }
 
     /**
@@ -75,28 +75,25 @@ public class bookshelf {
      * @param startDate The edited books new startDate.
      * @param finishDate The edited books new books finishDate.
      * @param page The current page of the edited book.
-     * @param category The new category for the edited book.
      */
-    public static void editBook(String oldTitle, String title, String author, String note, String startDate, String finishDate, String page, int category){
+    public static void editBook(String oldTitle, String title, String author, String note, String startDate, String finishDate, String page){
         checkNull();
-
+        int category = detCategory(startDate, finishDate);
         int index = titles.lastIndexOf(oldTitle);
         removeFromCategory(index);
-        switch (category){
-            case 0: {
-                reading.add(titles.size()-1);
-                finishDate = "";
-            }
-            case 1: {
-                toRead.add(titles.size()-1);
-                startDate = "";
-                finishDate = "";
-                page = "";
-            }
-            case 2: {
-                haveRead.add(titles.size()-1);
-                page = "";
-            }
+        if (category==0){
+            reading.add(titles.size()-1);
+            finishDate = "";
+        }
+        else if (category==1){
+            toRead.add(titles.size()-1);
+            startDate = "";
+            finishDate = "";
+            page = "";
+        }
+        else if (category==2){
+            haveRead.add(titles.size()-1);
+            page = "";
         }
 
         titles.set(index, title);
@@ -112,10 +109,10 @@ public class bookshelf {
      * @param oldTitle The unedited title of the book.
      * @param book ArrayList of new values for the book, in the format:
      *             {Title, Author, Notes, Start, Finish, Page}
-     * @param category The new category for the book.
      */
-    public static void editBook(String oldTitle, ArrayList<String> book, int category){
+    public static void editBook(String oldTitle, ArrayList<String> book){
         int index = titles.indexOf(oldTitle);
+        int category = detCategory(book.get(3), book.get(4));
         removeFromCategory(index);
         if (category==0){
             reading.add(index);
@@ -138,25 +135,6 @@ public class bookshelf {
         start.set(index, book.get(3));
         finish.set(index, book.get(4));
         currentPage.set(index, book.get(5));
-    }
-
-    /**
-     * Function to retrieve info of the book stored at the provided index.
-     * @param index The index of the desired book.
-     * @return an ArrayList containing all relevant info on the desired book.
-     * in the format {Title, Author, Notes, Start, Finish, Page}
-     */
-    public static ArrayList<String> getBook(int index){
-        ArrayList<String> book = new ArrayList<>(6);
-        if (titles.size()>0) {
-            book.add(titles.get(index));
-            book.add(authors.get(index));
-            book.add(notes.get(index));
-            book.add(start.get(index));
-            book.add(finish.get(index));
-            book.add(currentPage.get(index));
-        }
-        return book;
     }
 
     /**
@@ -326,6 +304,25 @@ public class bookshelf {
     public static ArrayList<String> getCurrentPage(){return currentPage;}
 
     /**
+     * Function to retrieve info of the book stored at the provided index.
+     * @param index The index of the desired book.
+     * @return an ArrayList containing all relevant info on the desired book.
+     * in the format {Title, Author, Notes, Start, Finish, Page}
+     */
+    public static ArrayList<String> getBook(int index){
+        ArrayList<String> book = new ArrayList<>(6);
+        if (titles.size()>0) {
+            book.add(titles.get(index));
+            book.add(authors.get(index));
+            book.add(notes.get(index));
+            book.add(start.get(index));
+            book.add(finish.get(index));
+            book.add(currentPage.get(index));
+        }
+        return book;
+    }
+
+    /**
      * Ensures Arraylists are never null. Check is only validated against title
      * as All other info would be useless without the title.
      */
@@ -386,5 +383,17 @@ public class bookshelf {
             value = haveRead.get(n);
             if (value>index){haveRead.set(n, value-1);}
         }
+    }
+
+    /**
+     * Determines the category to place the book under.
+     * @param startDate Date the book was started on.
+     * @param endDate Date the book was finished on.
+     * @return 0 for now reading, 1 for toRead and 2 for haveRead.
+     */
+    private static int detCategory(String startDate, String endDate){
+        if (endDate.length()>1){return 2;}
+        if (startDate.length()>1){return 0;}
+        return 1;
     }
 }
