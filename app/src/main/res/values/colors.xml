@@ -3,6 +3,7 @@
     <color name="colorPrimary">#157065</color>
     <color name="colorSecondary">#327AAC</color>
     <color name="colorTertiary">#AEB0B2</color>
+    <color name="colorPrimaryFaded">#66157065</color>
     <color name="colorAccent">#FF5722</color>
     <color name="colorPrimaryDark">#121212</color>
     <color name="colorPrimaryBackground">#121212</color>
