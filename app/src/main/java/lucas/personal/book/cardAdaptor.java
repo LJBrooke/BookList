@@ -117,7 +117,7 @@ public class cardAdaptor extends BaseAdapter {
             noteView.setText(notes.get(i));
             if (!currentPage.get(i).equals("")){
                 noteView = v.findViewById(R.id.page);
-                String curPage = "Page " + currentPage.get(i); // Todo Extract to strings.xml
+                String curPage = "Page " + currentPage.get(i);
                 noteView.setText(curPage);
             }
         }

@@ -51,7 +51,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         bookshelfSharedPrefs = getSharedPreferences("lucas.personal.book.BOOKLIST", AppCompatActivity.MODE_PRIVATE);
-        loadBookshelf();
+        new Thread(new Runnable() {
+            public void run() {
+                loadBookshelf();
+            }
+        }).start();
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -72,7 +76,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        saveBookshelf();
+        new Thread(new Runnable() {
+            public void run() {
+                saveBookshelf();
+            }
+        }).start();
 
         showCategoryCards(bookshelf.getCatBooks());
 
@@ -96,15 +104,21 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void finish() {
 
-        saveBookshelf();
+        new Thread(new Runnable() {
+            public void run() {
+                saveBookshelf();
+            }
+        }).start();
         super.finish();
     }
 
     @Override
     protected void onDestroy() {
-
-        //ToDo Move to new thread.
-        saveBookshelf();
+        new Thread(new Runnable() {
+            public void run() {
+                saveBookshelf();
+            }
+        }).start();
 
         super.onDestroy();
     }
@@ -208,7 +222,6 @@ public class MainActivity extends AppCompatActivity {
         bookshelfEditor.putString("lucas.personal.book.HAVEREAD", jsonHaveRead.toString());
         bookshelfEditor.putString("lucas.personal.book.READING", jsonReading.toString());
         bookshelfEditor.apply();
-        System.out.println("FooBar save titles: " + jsonTitles.toString());
     }
 
     /**
@@ -217,31 +230,22 @@ public class MainActivity extends AppCompatActivity {
     private void loadBookshelf(){
         String temp;
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.TITLES", null);
-        System.out.println("FooBar load titles: " + temp);
         bookshelf.setTitles(processJson(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.AUTHORS", null);
-        System.out.println("FooBar load authors: " + temp);
         bookshelf.setAuthors(processJson(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.NOTES", null);
-        System.out.println("FooBar load notes: " + temp);
         bookshelf.setNotes(processJson(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.START", null);
-        System.out.println("FooBar load start: " + temp);
         bookshelf.setStart(processJson(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.FINISH", null);
-        System.out.println("FooBar load finish: " + temp);
         bookshelf.setFinish(processJson(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.PAGE", null);
-        System.out.println("FooBar load page: " + temp);
         bookshelf.setCurrentPage(processJson(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.TOREAD", null);
-        System.out.println("FooBar load toRead: " + temp);
         bookshelf.setCatBooks(1, processJsonInt(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.HAVEREAD", null);
-        System.out.println("FooBar load haveRead: " + temp);
         bookshelf.setCatBooks(2, processJsonInt(temp));
         temp = bookshelfSharedPrefs.getString("lucas.personal.book.READING", null);
-        System.out.println("FooBar load reading: " + temp);
         bookshelf.setCatBooks(0, processJsonInt(temp));
 
     }
@@ -252,29 +256,20 @@ public class MainActivity extends AppCompatActivity {
      * @return ArrayList equivalent to the provided JSONString.
      */
     private static ArrayList<String> processJson(String JSONString) {
-        System.out.println("FooBar processJson: "+ JSONString);
-
         if (JSONString==null){return new ArrayList<>();}
-
         JSONArray jsonBooks = null;
         ArrayList<String> info = new ArrayList<>();
         try {
             try {
                 jsonBooks = new JSONArray(JSONString);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            } catch (JSONException e) {e.printStackTrace();}
 
             for (int i = 0; i < jsonBooks.length(); i++) {
                 try {
                     info.add(jsonBooks.getString(i));
-                    System.out.println("FooBar processJson jsonBooks.getString(i): " + jsonBooks.getString(i));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                } catch (JSONException e) {e.printStackTrace();}
             }
-
-        }catch (NullPointerException e){}
+        }catch (NullPointerException e){e.printStackTrace();}
 
         return info;
     }
@@ -285,22 +280,18 @@ public class MainActivity extends AppCompatActivity {
      * @return ArrayList equivalent to the provided JSONString.
      */
     private static ArrayList<Integer> processJsonInt(String JSONString) {
+        if (JSONString==null){return new ArrayList<>();}
         JSONArray jsonBooks = null;
         ArrayList<Integer> info = new ArrayList<>();
-
         try {
             try {
                 jsonBooks = new JSONArray(JSONString);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            } catch (JSONException e) {e.printStackTrace();}
 
             for (int i = 0; i < jsonBooks.length(); i++) {
                 try {
-                    info.add(i, Integer.parseInt(jsonBooks.get(i).toString()));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                    info.add(Integer.parseInt(jsonBooks.get(i).toString()));
+                } catch (JSONException e) {e.printStackTrace();}
             }
         } catch (NullPointerException e) {e.printStackTrace();}
 
