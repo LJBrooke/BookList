@@ -55,6 +55,10 @@ public class cardAdaptor extends BaseAdapter {
 		authorView.setText(author);
 		noteView.setText(note);
 		startView.setText(start);
+		if (start.equals("")) {
+			startView = v.findViewById(R.id.DateStartedText);
+			startView.setText("");
+		}
 		if (finish.equals("")) {
 			endView = v.findViewById(R.id.dateFinishedText);
 			String curPage = "";
