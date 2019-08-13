@@ -23,28 +23,42 @@ public class cardAdaptor extends BaseAdapter {
         this.notes = notes;
         this.currentPage = currentPage;
 
-
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public View viewBookCard(int i){
+    /**
+     * Creates an expanded bookcard view that displays the book at {@code index}.
+     * @param index Of the book to be viewed.
+     */
+    public View viewBookCard(int index){
         View v = mInflater.inflate(R.layout.book_info_expanded ,null);
         TextView titleView = v.findViewById(R.id.cardBookTitle);
         TextView authorView = v.findViewById(R.id.cardBookAuthor);
         TextView noteView = v.findViewById(R.id.cardBookNotes);
 
-        titleView.setText(titles.get(i));
-        authorView.setText(authors.get(i));
-        noteView.setText(notes.get(i));
+        titleView.setText(titles.get(index));
+        authorView.setText(authors.get(index));
+        noteView.setText(notes.get(index));
 
-        if (!currentPage.get(i).equals("")){
+        if (!currentPage.get(index).equals("")){
             noteView = v.findViewById(R.id.page);
-            noteView.setText(currentPage.get(i));
+            noteView.setText(currentPage.get(index));
         }
 
         return v;
     }
 
+    /**
+     * Creates an expanded bookcard view that displays the given information.
+     * @param c Application Context.
+     * @param title The book title
+     * @param author The book Author.
+     * @param note User notes on the book.
+     * @param start Date the book was started on.
+     * @param finish date the book was finished on.
+     * @param page The current page of the book.
+     * @return A view containing the given information.
+     */
     public static View displayBookCard(Context c, String title, String author, String note, String start, String finish, String page){
         LayoutInflater mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View v = mInflater.inflate(R.layout.book_info_expanded ,null);
@@ -72,9 +86,7 @@ public class cardAdaptor extends BaseAdapter {
     }
 
     @Override
-    public int getCount() {
-        return  titles.size();
-    }
+    public int getCount() {return  titles.size();}
 
     @Override
     public ArrayList<String> getItem(int index) {
@@ -86,18 +98,11 @@ public class cardAdaptor extends BaseAdapter {
             book.add(notes.get(index));
             return book;
         }
-
-        book.add("Book Not Found");
-        book.add(" ");
-        book.add(" ");
-
         return book;
     }
 
     @Override
-    public long getItemId(int i) {
-        return i;
-    }
+    public long getItemId(int i) {return i;}
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {

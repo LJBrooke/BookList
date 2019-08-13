@@ -24,12 +24,7 @@ public class activityBookInfo extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
 
-        title = getIntent().getStringExtra("lucas.personal.book.TITLE");
-        author = getIntent().getStringExtra("lucas.personal.book.AUTHOR");
-        note = getIntent().getStringExtra("lucas.personal.book.NOTE");
-        start = getIntent().getStringExtra("lucas.personal.book.START");
-        finish = getIntent().getStringExtra("lucas.personal.book.FINISH");
-        page = getIntent().getStringExtra("lucas.personal.book.PAGE");
+        setBookInfo();
 
         View v = cardAdaptor.displayBookCard(this, title,author,note, start, finish, page);
 
@@ -47,6 +42,22 @@ public class activityBookInfo extends AppCompatActivity {
         });
     }
 
+    /**
+     * Gathers intent information and assigns it to instance variables.
+     */
+    private void setBookInfo(){
+        title = getIntent().getStringExtra("lucas.personal.book.TITLE");
+        author = getIntent().getStringExtra("lucas.personal.book.AUTHOR");
+        note = getIntent().getStringExtra("lucas.personal.book.NOTE");
+        start = getIntent().getStringExtra("lucas.personal.book.START");
+        finish = getIntent().getStringExtra("lucas.personal.book.FINISH");
+        page = getIntent().getStringExtra("lucas.personal.book.PAGE");
+    }
+
+    /**
+     * Gathers all book info stored in instance variables and puts it into an ArrayList.
+     * @return Book info in the format {Title, Author, Note, Start, FInish, Page}
+     */
     private ArrayList<String> getBookInfo(){
         ArrayList<String> book = new ArrayList<>(6);
         book.add(title);
