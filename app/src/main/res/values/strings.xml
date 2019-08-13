@@ -9,7 +9,6 @@
     <string name="dateStarted">Date Started: </string>
     <string name="dateFinished">Date Finished: </string>
     <string name="currentPage">Current Page: </string>
-    <string name="page">Page: </string>
 
     <string name="addBookTitle">Title</string>
     <string name="addBookTitleHint">Give the Title of the book</string>
@@ -17,11 +16,6 @@
     <string name="addBookNotes">Notes on the book...</string>
     <string name="addDateStarted">Date Started: </string>
     <string name="addDateFinished">Date Finished: </string>
-    <string name="addProgressText">Book Progress:</string>
-    <string name="reason">Reason: </string>
-    <string name="toRead">To Read</string>
-    <string name="reading">Now Reading</string>
-    <string name="haveRead">Finished</string>
     <string name="saveBTN">Save</string>
 
 </resources>

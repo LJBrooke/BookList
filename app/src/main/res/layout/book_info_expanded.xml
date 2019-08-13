@@ -70,9 +70,9 @@
         android:layout_below="@+id/cardBookAuthor"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:elevation="4dp"
         android:layout_toEndOf="@+id/DateStartedText"
-        android:textColor="@color/colorSecondary"/>
+        android:elevation="4dp"
+        android:textColor="@color/colorSecondary" />
 
     <TextView
         android:id="@+id/cardDateFinished"
@@ -81,9 +81,9 @@
         android:layout_below="@+id/cardDateStarted"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:elevation="4dp"
         android:layout_toEndOf="@+id/dateFinishedText"
-        android:textColor="@color/colorSecondary"/>
+        android:elevation="4dp"
+        android:textColor="@color/colorSecondary" />
 
     <TextView
         android:id="@+id/cardBookNotes"
