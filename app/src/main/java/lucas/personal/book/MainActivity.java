@@ -14,10 +14,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ListView bookCards;
+    private SharedPreferences bookshelfSharedPrefs;
     private SharedPreferences.Editor bookshelfEditor;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -51,8 +54,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        SharedPreferences sharedPrefs = getSharedPreferences("bookList", AppCompatActivity.MODE_PRIVATE);
-        bookshelfEditor = sharedPrefs.edit();
+        bookshelfSharedPrefs = getSharedPreferences("bookList", AppCompatActivity.MODE_PRIVATE);
+        bookshelfEditor = bookshelfSharedPrefs.edit();
+//        loadBookshelf();
 //        bookshelf.loadBookList();
 
         showCategoryCards(bookshelf.getCatBooks());
@@ -92,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
     public void finish() {
 
         //ToDo Move to new thread.
-        bookshelf.saveBookshelf();
+        saveBookshelf();
 
         super.finish();
     }
@@ -166,6 +170,61 @@ public class MainActivity extends AppCompatActivity {
         bookCards = findViewById(R.id.bookCards);
         cardAdaptor adapter = new cardAdaptor(this, catTitles, catAuthors, catNotes, catCurrentPage);
         bookCards.setAdapter(adapter);
+    }
+
+    /**
+     * Save application information to sharedprefs
+     */
+    private void saveBookshelf(){
+        bookshelf.checkNull();
+
+        if (bookshelf.getTitles()!=null) {
+            JSONArray jsonReading = new JSONArray(bookshelf.getCatBooks(0));
+            JSONArray jsonToRead = new JSONArray(bookshelf.getCatBooks(1));
+            JSONArray jsonHaveRead = new JSONArray(bookshelf.getCatBooks(2));
+            JSONArray jsonTitles = new JSONArray(bookshelf.getTitles());
+            JSONArray jsonAuthors = new JSONArray(bookshelf.getAuthors());
+            JSONArray jsonNotes = new JSONArray(bookshelf.getNotes());
+            JSONArray jsonStart = new JSONArray(bookshelf.getStart());
+            JSONArray jsonFinish = new JSONArray(bookshelf.getFinish());
+            JSONArray jsonPage = new JSONArray(bookshelf.getCurrentPage());
+
+            bookshelfEditor.putString("toRead", jsonToRead.toString());
+            bookshelfEditor.putString("reading", jsonReading.toString());
+            bookshelfEditor.putString("haveRead", jsonHaveRead.toString());
+            bookshelfEditor.putString("titles", jsonTitles.toString());
+            bookshelfEditor.putString("authors", jsonAuthors.toString());
+            bookshelfEditor.putString("notes", jsonNotes.toString());
+            bookshelfEditor.putString("start", jsonStart.toString());
+            bookshelfEditor.putString("finish", jsonFinish.toString());
+            bookshelfEditor.putString("page", jsonPage.toString());
+            bookshelfEditor.apply();
+        }
+    }
+
+    /**
+     * Load Application information form shared prefs.
+     */
+    private void loadBookshelf(){
+        String temp;
+        temp = bookshelfSharedPrefs.getString("titles", "not found");
+        titles = processJson(temp);
+        temp = bookshelfSharedPrefs.getString("authors", "not found");
+        authors = processJson(temp);
+        temp = bookshelfSharedPrefs.getString("notes", "not found");
+        notes = processJson(temp);
+        temp = bookshelfSharedPrefs.getString("start", "not found");
+        start = processJson(temp);
+        temp = bookshelfSharedPrefs.getString("finish", "not found");
+        finish = processJson(temp);
+        temp = bookshelfSharedPrefs.getString("page", "not found");
+        currentPage = processJson(temp);
+        temp = bookshelfSharedPrefs.getString("toRead", "not found");
+        toRead = processJsonInt(temp);
+        temp = bookshelfSharedPrefs.getString("haveRead", "not found");
+        haveRead = processJsonInt(temp);
+        temp = bookshelfSharedPrefs.getString("reading", "not found");
+        reading = processJsonInt(temp);
     }
 
 }

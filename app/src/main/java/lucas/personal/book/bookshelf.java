@@ -226,6 +226,12 @@ public class bookshelf {
     }
 
     /**
+     * Sets the new category.
+     * @param newCategory The new Category.
+     */
+    public static void setCurrentCategory(int newCategory){currentCategory=newCategory;}
+
+    /**
      * Gives the books in the currently selected Category.
      * @return ArrayList of Indexes for books in the current category.
      */
@@ -246,10 +252,25 @@ public class bookshelf {
     }
 
     /**
-     * Sets the new category.
-     * @param newCategory The new Category.
+     * Gives the books in the specified Category.
+     * @param category Chooses the category. 0 is reading, 1 is toRead and 2 is haveRead.
+     * @return ArrayList of Indexes for books in the specified category.
      */
-    public static void setCurrentCategory(int newCategory){currentCategory=newCategory;}
+    public static ArrayList<Integer> getCatBooks(int category){
+        if (category==0) {
+            if (reading==null){return new ArrayList<Integer>();}
+            return reading;
+        }
+        else if (category==1) {
+            if (toRead==null){return new ArrayList<Integer>();}
+            return toRead;
+        }
+        else if (category==2) {
+            if (haveRead == null) {return new ArrayList<Integer>();}
+            return haveRead;
+        }
+        return null;
+    }
 
     /**
      * @return ArrayList of Current Titles
@@ -267,72 +288,39 @@ public class bookshelf {
     public static ArrayList<String> getNotes(){return notes;}
 
     /**
-     * @return ArrayList of Current Notes
+     * @return ArrayList of Current start dates.
+     */
+    public static ArrayList<String> getStart(){return start;}
+
+    /**
+     * @return ArrayList of Current finish dates.
+     */
+    public static ArrayList<String> getFinish(){return finish;}
+
+    /**
+     * @return ArrayList of Current Pages for books on the bookshelf.
      */
     public static ArrayList<String> getCurrentPage(){return currentPage;}
 
     /**
-     * Save information to sharedprefs
+     * Ensures Arraylists are never null. Check is only validated against title
+     * as All other info would be useless without the title.
      */
-    public static void saveBookshelf(){
+    public static void checkNull(){
+        try{
+            titles.size();
+        }catch (NullPointerException e){
+            titles = new ArrayList<>();
+            authors = new ArrayList<>();
+            notes = new ArrayList<>();
+            start = new ArrayList<>();
+            finish = new ArrayList<>();
+            currentPage = new ArrayList<>();
 
-        return; // ToDo Implement Shared Prefs properly.
-
-//        checkNull();
-
-//        if (titles!=null) {
-//            SharedPreferences bookListCurrent = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
-//            SharedPreferences.Editor bookList = bookListCurrent.edit();
-//
-//            JSONArray jsonReading = new JSONArray(reading);
-//            JSONArray jsonToRead = new JSONArray(toRead);
-//            JSONArray jsonHaveRead = new JSONArray(haveRead);
-//            JSONArray jsonTitles = new JSONArray(titles);
-//            JSONArray jsonAuthors = new JSONArray(authors);
-//            JSONArray jsonNotes = new JSONArray(notes);
-//            JSONArray jsonStart = new JSONArray(start);
-//            JSONArray jsonFinish = new JSONArray(finish);
-//            JSONArray jsonPage = new JSONArray(currentPage);
-//
-//            bookList.putString("toRead", jsonToRead.toString());
-//            bookList.putString("reading", jsonReading.toString());
-//            bookList.putString("haveRead", jsonHaveRead.toString());
-//            bookList.putString("titles", jsonTitles.toString());
-//            bookList.putString("authors", jsonAuthors.toString());
-//            bookList.putString("notes", jsonNotes.toString());
-//            bookList.putString("start", jsonStart.toString());
-//            bookList.putString("finish", jsonFinish.toString());
-//            bookList.putString("page", jsonPage.toString());
-//            bookList.apply();
-//        }
-    }
-
-    /**
-     * Load information form shared prefs.
-     */
-    public static void loadBookList(){
-
-        return; // ToDo Implement Shared Prefs properly.
-
-//        String temp;
-//        temp = bookList.getString("titles", "not found");
-//        titles = processJson(temp);
-//        temp = bookList.getString("authors", "not found");
-//        authors = processJson(temp);
-//        temp = bookList.getString("notes", "not found");
-//        notes = processJson(temp);
-//        temp = bookList.getString("start", "not found");
-//        start = processJson(temp);
-//        temp = bookList.getString("finish", "not found");
-//        finish = processJson(temp);
-//        temp = bookList.getString("page", "not found");
-//        currentPage = processJson(temp);
-//        temp = bookList.getString("toRead", "not found");
-//        toRead = processJsonInt(temp);
-//        temp = bookList.getString("haveRead", "not found");
-//        haveRead = processJsonInt(temp);
-//        temp = bookList.getString("reading", "not found");
-//        reading = processJsonInt(temp);
+            toRead = new ArrayList<>();
+            reading = new ArrayList<>();
+            haveRead = new ArrayList<>();
+        }
     }
 
     /**
@@ -374,27 +362,6 @@ public class bookshelf {
         for (int n = 0; n<haveRead.size(); n++){
             value = haveRead.get(n);
             if (value>index){haveRead.set(n, value-1);}
-        }
-    }
-
-    /**
-     * Ensures Arraylists are never null. Check is only validated against title
-     * as All other info would be useless without the title.
-     */
-    private static void checkNull(){
-        try{
-            titles.size();
-        }catch (NullPointerException e){
-            titles = new ArrayList<>();
-            authors = new ArrayList<>();
-            notes = new ArrayList<>();
-            start = new ArrayList<>();
-            finish = new ArrayList<>();
-            currentPage = new ArrayList<>();
-
-            toRead = new ArrayList<>();
-            reading = new ArrayList<>();
-            haveRead = new ArrayList<>();
         }
     }
 
