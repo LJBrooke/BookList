@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        bookshelf.loadBookList();
+
         showCategoryCards(bookshelf.getCatBooks());
         FloatingActionButton addBook = findViewById(R.id.addBookFAB);
         addBook.setOnClickListener(new View.OnClickListener() {
@@ -91,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         super.finish();
     }
 
+    /**
+     * Launches the addBook Activity.
+     */
     protected void addBookActivity(){
 
         Intent addBook = new Intent(this, lucas.personal.book.addBook.class);
@@ -98,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
         onStart();
     }
 
+    /**
+     * Launches the viewBook activity, for a full overview of the selected book.
+     * @param i The index of the selected book in the current category.
+     */
     protected void viewBookCard(int i){
         Intent viewBook = new Intent(getApplicationContext(), activityBookInfo.class);
         int n = bookshelf.getIndex(i);
@@ -112,6 +121,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(viewBook);
     }
 
+    /**
+     * Shows all cards. Irrespective of the books category.
+     */
     protected void showAllCards(){
 
         bookCards = findViewById(R.id.bookCards);
@@ -120,6 +132,10 @@ public class MainActivity extends AppCompatActivity {
         bookCards.setAdapter(adapter);
     }
 
+    /**
+     * Uses cardAdaptor to display all cards from the given category.
+     * @param category An ArrayList of the indexes of all books in the desired category.
+     */
     protected void showCategoryCards(ArrayList<Integer> category){
 
         int size = category.size();

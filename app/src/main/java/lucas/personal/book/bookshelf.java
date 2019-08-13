@@ -20,12 +20,16 @@ public class bookshelf {
     private static ArrayList<String> finish;
     private static ArrayList<String> currentPage;
 
-    bookshelf(){
-        checkNull();
-        //ToDO Move to New Thread
-        loadBookList();
-    }
-
+    /**
+     * Function to add the provided info as a book.
+     * @param title The new books title
+     * @param author The new books author
+     * @param note notes on the new book.
+     * @param startDate The new books startDate.
+     * @param finishDate The new books finishDate.
+     * @param page The current page of the new book.
+     * @param category The new category for the book.
+     */
     public static void addBook(String title, String author, String note, String startDate, String finishDate, String page, int category){
         checkNull();
 
@@ -43,6 +47,12 @@ public class bookshelf {
         currentPage.add(page);
     }
 
+    /**
+     * Function to add the provided book.
+     * @param newBook ArrayList of values for the book, in the format:
+     *      *             {Title, Author, Notes, Start, Finish, Page}
+     * @param category The new category for the book.
+     */
     public static void addBook(ArrayList<String> newBook, int category){
         checkNull();
 
@@ -59,6 +69,17 @@ public class bookshelf {
         } catch (NullPointerException e){}
     }
 
+    /**
+     * Function to edit the provided book. Book is located by the oldTitle.
+     * @param oldTitle The unedited title of the book. Used to locate book.
+     * @param title The edited books new title
+     * @param author The edited books new author
+     * @param note notes on the edited book.
+     * @param startDate The edited books new startDate.
+     * @param finishDate The edited books new books finishDate.
+     * @param page The current page of the edited book.
+     * @param category The new category for the edited book.
+     */
     public static void editBook(String oldTitle, String title, String author, String note, String startDate, String finishDate, String page, int category){
         checkNull();
 
@@ -143,23 +164,31 @@ public class bookshelf {
         return book;
     }
 
-    public static void deleteBook(int i){
+    /**
+     * Deletes the book at the given index.
+     * @param categoryIndex The index of the selected book in the given category.
+     */
+    public static void deleteBook(int categoryIndex){
         // ToDo add prompt.
         if (titles== null){return;}
 
-        int n = getIndex(i);
+        int universalIndex = getIndex(categoryIndex);
 
-        removeFromCategory(n);
-        correctIndex(n);
+        removeFromCategory(universalIndex);
+        correctIndex(universalIndex);
 
-        titles.remove(n);
-        authors.remove(n);
-        notes.remove(n);
-        start.remove(n);
-        finish.remove(n);
-        currentPage.remove(n);
+        titles.remove(universalIndex);
+        authors.remove(universalIndex);
+        notes.remove(universalIndex);
+        start.remove(universalIndex);
+        finish.remove(universalIndex);
+        currentPage.remove(universalIndex);
     }
 
+    /**
+     * Deletes the given book. Book is matched by Title.
+     * @param book ArrayList of the book to delete.
+     */
     public static void deleteBook(ArrayList<String> book){
         if (titles== null){return;}
 
@@ -176,21 +205,30 @@ public class bookshelf {
         currentPage.remove(i);
     }
 
+    /**
+     * Checks if a given book is stored.
+     * @param title Title of the book being checked for.
+     * @return Boolean for if the book is stored.
+     */
     public static boolean onBookshelf(String title){return  titles.contains(title);}
 
     public static int getIndex(String title){return titles.lastIndexOf(title);}
 
     /**
      * Takes the index from a category and returns the overall index.
-     * @param i the index of the book in the current category.
-     * @return the ovrall index of the book.
+     * @param categoryIndex the index of the book in the current category.
+     * @return the overall index of the book.
      */
-    public static int getIndex(int i){
-        if (currentCategory==0){return reading.get(i);}
-        else if (currentCategory==1) {return toRead.get(i);}
-        return haveRead.get(i);
+    public static int getIndex(int categoryIndex){
+        if (currentCategory==0){return reading.get(categoryIndex);}
+        else if (currentCategory==1) {return toRead.get(categoryIndex);}
+        return haveRead.get(categoryIndex);
     }
 
+    /**
+     * Gives the books in the currently selected Category.
+     * @return ArrayList of Indexes for books in the current category.
+     */
     public static ArrayList<Integer> getCatBooks(){
         if (currentCategory==0) {
             if (reading==null){return new ArrayList<Integer>();}
@@ -207,17 +245,36 @@ public class bookshelf {
         return null;
     }
 
+    /**
+     * Sets the new category.
+     * @param newCategory The new Category.
+     */
     public static void setCurrentCategory(int newCategory){currentCategory=newCategory;}
 
+    /**
+     * @return ArrayList of Current Titles
+     */
     public static ArrayList<String> getTitles(){return titles;}
 
+    /**
+     * @return ArrayList of Current Authors
+     */
     public static ArrayList<String> getAuthors(){return authors;}
 
+    /**
+     * @return ArrayList of Current Notes
+     */
     public static ArrayList<String> getNotes(){return notes;}
 
+    /**
+     * @return ArrayList of Current Notes
+     */
     public static ArrayList<String> getCurrentPage(){return currentPage;}
 
-    protected static void saveBookshelf(){
+    /**
+     * Save information to sharedprefs
+     */
+    public static void saveBookshelf(){
 
         return; // ToDo Implement Shared Prefs properly.
 
@@ -250,7 +307,10 @@ public class bookshelf {
 //        }
     }
 
-    private static void loadBookList(){
+    /**
+     * Load information form shared prefs.
+     */
+    public static void loadBookList(){
 
         return; // ToDo Implement Shared Prefs properly.
 
@@ -276,38 +336,52 @@ public class bookshelf {
 //        reading = processJsonInt(temp);
     }
 
-    private static void removeFromCategory(int i){
+    /**
+     * Removes index from it's current category.
+     * @param index to be removed.
+     */
+    private static void removeFromCategory(int index){
         int d;
-        if (reading.contains(i)){
-            d = reading.indexOf(i);
+        if (reading.contains(index)){
+            d = reading.indexOf(index);
             reading.remove(d);
         }
-        else if (toRead.contains(i)){
-            d = toRead.indexOf(i);
+        else if (toRead.contains(index)){
+            d = toRead.indexOf(index);
             toRead.remove(d);
         }
-        else if (haveRead.contains(i)){
-            d = haveRead.indexOf(i);
+        else if (haveRead.contains(index)){
+            d = haveRead.indexOf(index);
             haveRead.remove(d);
         }
     }
 
-    private static void correctIndex(int i){
+    /**
+     * Deincrements all indexes bigger than the given index.
+     * Intended for use when an index has been deleted and the
+     * remaining indexes need corrections.
+     * @param index The index to correct from.
+     */
+    private static void correctIndex(int index){
         int value;
         for (int n = 0; n<reading.size(); n++){
             value = reading.get(n);
-            if (value>i){reading.set(n, value-1);}
+            if (value>index){reading.set(n, value-1);}
         }
         for (int n = 0; n<toRead.size(); n++){
             value = toRead.get(n);
-            if (value>i){toRead.set(n, value-1);}
+            if (value>index){toRead.set(n, value-1);}
         }
         for (int n = 0; n<haveRead.size(); n++){
             value = haveRead.get(n);
-            if (value>i){haveRead.set(n, value-1);}
+            if (value>index){haveRead.set(n, value-1);}
         }
     }
 
+    /**
+     * Ensures Arraylists are never null. Check is only validated against title
+     * as All other info would be useless without the title.
+     */
     private static void checkNull(){
         try{
             titles.size();
@@ -325,6 +399,11 @@ public class bookshelf {
         }
     }
 
+    /**
+     * Converts JSONString to an ArrayList<String>.
+     * @param JSONString JSONString to be converted.
+     * @return ArrayList equivalent to the provided JSONString.
+     */
     private ArrayList<String> processJson(String JSONString) {
         JSONArray jsonBooks = null;
         ArrayList<String> info = new ArrayList<>();
@@ -349,6 +428,11 @@ public class bookshelf {
         return info;
     }
 
+    /**
+     * Converts JSONString to an ArrayList<Integer>.
+     * @param JSONString JSONString to be converted.
+     * @return ArrayList equivalent to the provided JSONString.
+     */
     private ArrayList<Integer> processJsonInt(String JSONString) {
         JSONArray jsonBooks = null;
         ArrayList<Integer> info = new ArrayList<>();

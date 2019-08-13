@@ -61,6 +61,10 @@ public class addBook extends AppCompatActivity {
         });
     }
 
+    /**
+     * Sets the nowReading tab to visible.
+     * @return the nowReading View.
+     */
     private View setNowReading(){
         nowReading.setVisibility(View.VISIBLE);
         toRead.setVisibility(View.INVISIBLE);
@@ -68,6 +72,10 @@ public class addBook extends AppCompatActivity {
         return nowReading;
     }
 
+    /**
+     * Sets the toReas tab to visible.
+     * @return the toRead View.
+     */
     private View setToRead(){
         nowReading.setVisibility(View.INVISIBLE);
         toRead.setVisibility(View.VISIBLE);
@@ -75,6 +83,10 @@ public class addBook extends AppCompatActivity {
         return toRead;
     }
 
+    /**
+     * Sets the haveReading tab to visible.
+     * @return the haveRead View.
+     */
     private View setHaveRead(){
         nowReading.setVisibility(View.INVISIBLE);
         toRead.setVisibility(View.INVISIBLE);
@@ -82,6 +94,10 @@ public class addBook extends AppCompatActivity {
         return haveRead;
     }
 
+    /**
+     * Sets the input fields to the values provided by info.
+     * @param info An Arraylist of the format {Title, Author, Note, startDate, FinishDate, CurrentPage}
+     */
     private void setInfo(ArrayList<String> info){
 	    TextView temp = findViewById(R.id.bookTitle);
 	    temp.setText(info.get(0));
@@ -98,6 +114,10 @@ public class addBook extends AppCompatActivity {
 	    temp.setText(info.get(5));
     }
 
+    /**
+     * Collects values from all input fields.
+     * @return TextField values in an ArrayList of format: {Title, Author, Note, startDate, FinishDate, CurrentPage}
+     */
     private ArrayList<String> getBook() {
         ArrayList<String> book = new ArrayList<>(6);
         TextView temp = findViewById(R.id.bookTitle);
