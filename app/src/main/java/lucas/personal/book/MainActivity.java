@@ -1,6 +1,7 @@
 package lucas.personal.book;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     ListView bookCards;
+    private SharedPreferences.Editor bookshelfEditor;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -49,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        bookshelf.loadBookList();
+        SharedPreferences sharedPrefs = getSharedPreferences("bookList", AppCompatActivity.MODE_PRIVATE);
+        bookshelfEditor = sharedPrefs.edit();
+//        bookshelf.loadBookList();
 
         showCategoryCards(bookshelf.getCatBooks());
         FloatingActionButton addBook = findViewById(R.id.addBookFAB);

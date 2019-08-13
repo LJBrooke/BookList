@@ -279,7 +279,7 @@ public class bookshelf {
         return; // ToDo Implement Shared Prefs properly.
 
 //        checkNull();
-//
+
 //        if (titles!=null) {
 //            SharedPreferences bookListCurrent = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
 //            SharedPreferences.Editor bookList = bookListCurrent.edit();
@@ -314,7 +314,6 @@ public class bookshelf {
 
         return; // ToDo Implement Shared Prefs properly.
 
-//        SharedPreferences bookList = getSharedPreferences("bookList", Activity.MODE_PRIVATE);
 //        String temp;
 //        temp = bookList.getString("titles", "not found");
 //        titles = processJson(temp);
@@ -404,7 +403,7 @@ public class bookshelf {
      * @param JSONString JSONString to be converted.
      * @return ArrayList equivalent to the provided JSONString.
      */
-    private ArrayList<String> processJson(String JSONString) {
+    private static ArrayList<String> processJson(String JSONString) {
         JSONArray jsonBooks = null;
         ArrayList<String> info = new ArrayList<>();
 
@@ -433,7 +432,7 @@ public class bookshelf {
      * @param JSONString JSONString to be converted.
      * @return ArrayList equivalent to the provided JSONString.
      */
-    private ArrayList<Integer> processJsonInt(String JSONString) {
+    private static ArrayList<Integer> processJsonInt(String JSONString) {
         JSONArray jsonBooks = null;
         ArrayList<Integer> info = new ArrayList<>();
 
