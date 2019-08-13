@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         bookshelfSharedPrefs = getSharedPreferences("bookList", AppCompatActivity.MODE_PRIVATE);
-        bookshelfEditor = bookshelfSharedPrefs.edit();
         loadBookshelf();
 
         showCategoryCards(bookshelf.getCatBooks());
@@ -95,10 +94,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void finish() {
 
+        super.finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+
         //ToDo Move to new thread.
         saveBookshelf();
 
-        super.finish();
+        super.onDestroy();
     }
 
     /**
@@ -178,28 +183,29 @@ public class MainActivity extends AppCompatActivity {
     private void saveBookshelf(){
         bookshelf.checkNull();
 
-        if (bookshelf.getTitles()!=null) {
-            JSONArray jsonReading = new JSONArray(bookshelf.getCatBooks(0));
-            JSONArray jsonToRead = new JSONArray(bookshelf.getCatBooks(1));
-            JSONArray jsonHaveRead = new JSONArray(bookshelf.getCatBooks(2));
-            JSONArray jsonTitles = new JSONArray(bookshelf.getTitles());
-            JSONArray jsonAuthors = new JSONArray(bookshelf.getAuthors());
-            JSONArray jsonNotes = new JSONArray(bookshelf.getNotes());
-            JSONArray jsonStart = new JSONArray(bookshelf.getStart());
-            JSONArray jsonFinish = new JSONArray(bookshelf.getFinish());
-            JSONArray jsonPage = new JSONArray(bookshelf.getCurrentPage());
+        bookshelfEditor = bookshelfSharedPrefs.edit();
 
-            bookshelfEditor.putString("toRead", jsonToRead.toString());
-            bookshelfEditor.putString("reading", jsonReading.toString());
-            bookshelfEditor.putString("haveRead", jsonHaveRead.toString());
-            bookshelfEditor.putString("titles", jsonTitles.toString());
-            bookshelfEditor.putString("authors", jsonAuthors.toString());
-            bookshelfEditor.putString("notes", jsonNotes.toString());
-            bookshelfEditor.putString("start", jsonStart.toString());
-            bookshelfEditor.putString("finish", jsonFinish.toString());
-            bookshelfEditor.putString("page", jsonPage.toString());
-            bookshelfEditor.apply();
-        }
+        JSONArray jsonReading = new JSONArray(bookshelf.getCatBooks(0));
+        JSONArray jsonToRead = new JSONArray(bookshelf.getCatBooks(1));
+        JSONArray jsonHaveRead = new JSONArray(bookshelf.getCatBooks(2));
+        JSONArray jsonTitles = new JSONArray(bookshelf.getTitles());
+        JSONArray jsonAuthors = new JSONArray(bookshelf.getAuthors());
+        JSONArray jsonNotes = new JSONArray(bookshelf.getNotes());
+        JSONArray jsonStart = new JSONArray(bookshelf.getStart());
+        JSONArray jsonFinish = new JSONArray(bookshelf.getFinish());
+        JSONArray jsonPage = new JSONArray(bookshelf.getCurrentPage());
+
+        bookshelfEditor.putString("toRead", jsonToRead.toString());
+        bookshelfEditor.putString("reading", jsonReading.toString());
+        bookshelfEditor.putString("haveRead", jsonHaveRead.toString());
+        bookshelfEditor.putString("titles", jsonTitles.toString());
+        bookshelfEditor.putString("authors", jsonAuthors.toString());
+        bookshelfEditor.putString("notes", jsonNotes.toString());
+        bookshelfEditor.putString("start", jsonStart.toString());
+        bookshelfEditor.putString("finish", jsonFinish.toString());
+        bookshelfEditor.putString("page", jsonPage.toString());
+        bookshelfEditor.apply();
+        System.out.println("FooBar save titles: " + jsonTitles.toString());
     }
 
     /**
@@ -207,7 +213,8 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadBookshelf(){
         String temp;
-        temp = bookshelfSharedPrefs.getString("titles", null);
+        temp = bookshelfSharedPrefs.getString("titles", "Titles not found");
+        System.out.println("FooBar load temp: " + temp);
         bookshelf.setTitles(processJson(temp));
         temp = bookshelfSharedPrefs.getString("authors", null);
         bookshelf.setAuthors(processJson(temp));
@@ -233,19 +240,21 @@ public class MainActivity extends AppCompatActivity {
      * @return ArrayList equivalent to the provided JSONString.
      */
     private static ArrayList<String> processJson(String JSONString) {
+        System.out.println("FooBar processJson: "+ JSONString);
         JSONArray jsonBooks = null;
         ArrayList<String> info = new ArrayList<>();
 
         try {
-            jsonBooks = new JSONArray(JSONString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            try {
+                jsonBooks = new JSONArray(JSONString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        try {
             for (int i = 0; i < jsonBooks.length(); i++) {
                 try {
-                    info.add((String) jsonBooks.get(i));
+                    info.add(jsonBooks.getString(i));
+                    System.out.println("FooBar processJson jsonBooks.getString(i): " + jsonBooks.getString(i));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -266,12 +275,12 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Integer> info = new ArrayList<>();
 
         try {
-            jsonBooks = new JSONArray(JSONString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            try {
+                jsonBooks = new JSONArray(JSONString);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        try {
             for (int i = 0; i < jsonBooks.length(); i++) {
                 try {
                     info.add(i, Integer.parseInt(jsonBooks.get(i).toString()));
