@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
 
         bookCards = findViewById(R.id.bookCards);
         //ToDo Create new method for this implementation.
-        cardAdaptor adapter = new cardAdaptor(this, bookshelf.getTitles(), bookshelf.getAuthors(), bookshelf.getNotes(), bookshelf.getCurrentPage());
+        cardAdaptor adapter = new cardAdaptor(this, bookshelf.getTitles(), bookshelf.getAuthors(), bookshelf.getNotes(), bookshelf.getStart(), bookshelf.getFinish(), bookshelf.getCurrentPage());
         bookCards.setAdapter(adapter);
     }
 
@@ -172,6 +172,8 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<String> catTitles = new ArrayList<>(size);
         ArrayList<String> catAuthors = new ArrayList<>(size);
         ArrayList<String> catNotes = new ArrayList<>(size);
+        ArrayList<String> catStart = new ArrayList<>(size);
+        ArrayList<String> catFinish = new ArrayList<>(size);
         ArrayList<String> catCurrentPage = new ArrayList<>(size);
 
         int n;
@@ -185,12 +187,14 @@ public class MainActivity extends AppCompatActivity {
                 catTitles.add(i, book.get(0));
                 catAuthors.add(i, book.get(1));
                 catNotes.add(i, book.get(2));
+                catStart.add(i, book.get(3));
+                catFinish.add(i, book.get(4));
                 catCurrentPage.add(i, book.get(5));
             }
         }
 
         bookCards = findViewById(R.id.bookCards);
-        cardAdaptor adapter = new cardAdaptor(this, catTitles, catAuthors, catNotes, catCurrentPage);
+        cardAdaptor adapter = new cardAdaptor(this, catTitles, catAuthors, catNotes, catStart, catFinish, catCurrentPage);
         bookCards.setAdapter(adapter);
     }
 

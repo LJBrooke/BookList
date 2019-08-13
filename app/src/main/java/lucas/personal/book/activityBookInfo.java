@@ -59,7 +59,7 @@ public class activityBookInfo extends AppCompatActivity {
      * @return Book info in the format {Title, Author, Note, Start, FInish, Page}
      */
     private ArrayList<String> getBookInfo(){
-        ArrayList<String> book = new ArrayList<>(6);
+        ArrayList<String> book = new ArrayList<>();
         book.add(title);
         book.add(author);
         book.add(note);

@@ -15,12 +15,16 @@ public class cardAdaptor extends BaseAdapter {
     private ArrayList<String> titles;
     private ArrayList<String> authors;
     private ArrayList<String> notes;
+    private ArrayList<String> startDate;
+    private ArrayList<String> finishDate;
     private ArrayList<String> currentPage;
 
-    protected cardAdaptor(Context c, ArrayList<String> titles, ArrayList<String> authors, ArrayList<String> notes, ArrayList<String> currentPage){
+    protected cardAdaptor(Context c, ArrayList<String> titles, ArrayList<String> authors, ArrayList<String> notes, ArrayList<String> startDate, ArrayList<String> finishDate, ArrayList<String> currentPage){
         this.titles = titles;
         this.authors = authors;
         this.notes = notes;
+        this.startDate =startDate;
+        this.finishDate = finishDate;
         this.currentPage = currentPage;
 
         mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -65,15 +69,16 @@ public class cardAdaptor extends BaseAdapter {
         TextView titleView = v.findViewById(R.id.cardBookTitle);
         TextView authorView = v.findViewById(R.id.cardBookAuthor);
         TextView noteView = v.findViewById(R.id.cardBookNotes);
-        TextView startView = v.findViewById(R.id.dateStarted);
-        TextView endView = v.findViewById(R.id.dateFinished);
+        TextView startView = v.findViewById(R.id.cardDateStarted);
+        TextView endView = v.findViewById(R.id.cardDateFinished);
 
+        System.out.println("Foo start: "+start);
         titleView.setText(title);
         authorView.setText(author);
         noteView.setText(note);
         startView.setText(start);
         if (finish.equals("")){
-            endView = v.findViewById(R.id.dateFinished);
+            endView = v.findViewById(R.id.cardDateFinished);
             String curPage = "";
             if (!start.equals("")){
                 curPage = "Page: " + page;
@@ -96,6 +101,9 @@ public class cardAdaptor extends BaseAdapter {
             book.add(titles.get(index));
             book.add(authors.get(index));
             book.add(notes.get(index));
+            book.add(startDate.get(index));
+            book.add(finishDate.get(index));
+            book.add(currentPage.get(index));
             return book;
         }
         return book;

@@ -115,22 +115,20 @@ public class bookshelf {
      * @param category The new category for the book.
      */
     public static void editBook(String oldTitle, ArrayList<String> book, int category){
-        checkNull();
-
         int index = titles.indexOf(oldTitle);
         removeFromCategory(index);
         if (category==0){
-            reading.add(titles.size()-1);
+            reading.add(index);
             book.set(4, "");
         }
         else if (category==1){
-            toRead.add(titles.size()-1);
+            toRead.add(index);
             book.set(3,"");
             book.set(4, "");
             book.set(5, "");
         }
         else if (category==2){
-            haveRead.add(titles.size()-1);
+            haveRead.add(index);
             book.set(5, "");
         }
 
