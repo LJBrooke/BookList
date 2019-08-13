@@ -1,8 +1,5 @@
 package lucas.personal.book;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import java.util.ArrayList;
 
 public class bookshelf {
@@ -212,6 +209,40 @@ public class bookshelf {
      */
     public static boolean onBookshelf(String title){return  titles.contains(title);}
 
+	/**
+	 * Sets the new category.
+	 * @param newCategory The new Category.
+	 */
+	public static void setCurrentCategory(int newCategory){currentCategory=newCategory;}
+
+	/**
+	 * Gives the books in the specified Category.
+	 * @param category Chooses the category. 0 is reading, 1 is toRead and 2 is haveRead.
+	 */
+	public static void setCatBooks(int category, ArrayList<Integer> newCategory){
+		if (category==0) {
+			reading = newCategory;
+		}
+		else if (category==1) {
+			toRead = newCategory;
+		}
+		else if (category==2) {
+			haveRead = newCategory;
+		}
+	}
+
+	public static void setTitles(ArrayList<String> newTitles){titles = newTitles;}
+
+	public static void setAuthors(ArrayList<String> newAuthors){authors=newAuthors;}
+
+	public static void setNotes(ArrayList<String> newNotes){notes=newNotes;}
+
+	public static void setStart(ArrayList<String> newStart){start=newStart;}
+
+	public static void setFinish(ArrayList<String> newFinish){finish=newFinish;}
+
+	public static void setCurrentPage(ArrayList<String> newCurrentPage){currentPage=newCurrentPage;}
+
     public static int getIndex(String title){return titles.lastIndexOf(title);}
 
     /**
@@ -224,12 +255,6 @@ public class bookshelf {
         else if (currentCategory==1) {return toRead.get(categoryIndex);}
         return haveRead.get(categoryIndex);
     }
-
-    /**
-     * Sets the new category.
-     * @param newCategory The new Category.
-     */
-    public static void setCurrentCategory(int newCategory){currentCategory=newCategory;}
 
     /**
      * Gives the books in the currently selected Category.
@@ -363,62 +388,5 @@ public class bookshelf {
             value = haveRead.get(n);
             if (value>index){haveRead.set(n, value-1);}
         }
-    }
-
-    /**
-     * Converts JSONString to an ArrayList<String>.
-     * @param JSONString JSONString to be converted.
-     * @return ArrayList equivalent to the provided JSONString.
-     */
-    private static ArrayList<String> processJson(String JSONString) {
-        JSONArray jsonBooks = null;
-        ArrayList<String> info = new ArrayList<>();
-
-        try {
-            jsonBooks = new JSONArray(JSONString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            for (int i = 0; i < jsonBooks.length(); i++) {
-                try {
-                    info.add((String) jsonBooks.get(i));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-        }catch (NullPointerException e){}
-
-        return info;
-    }
-
-    /**
-     * Converts JSONString to an ArrayList<Integer>.
-     * @param JSONString JSONString to be converted.
-     * @return ArrayList equivalent to the provided JSONString.
-     */
-    private static ArrayList<Integer> processJsonInt(String JSONString) {
-        JSONArray jsonBooks = null;
-        ArrayList<Integer> info = new ArrayList<>();
-
-        try {
-            jsonBooks = new JSONArray(JSONString);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        try {
-            for (int i = 0; i < jsonBooks.length(); i++) {
-                try {
-                    info.add(i, Integer.parseInt(jsonBooks.get(i).toString()));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (NullPointerException e) {e.printStackTrace();}
-
-        return info;
     }
 }

@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 
@@ -56,8 +57,7 @@ public class MainActivity extends AppCompatActivity {
 
         bookshelfSharedPrefs = getSharedPreferences("bookList", AppCompatActivity.MODE_PRIVATE);
         bookshelfEditor = bookshelfSharedPrefs.edit();
-//        loadBookshelf();
-//        bookshelf.loadBookList();
+        loadBookshelf();
 
         showCategoryCards(bookshelf.getCatBooks());
         FloatingActionButton addBook = findViewById(R.id.addBookFAB);
@@ -207,24 +207,80 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadBookshelf(){
         String temp;
-        temp = bookshelfSharedPrefs.getString("titles", "not found");
-        titles = processJson(temp);
-        temp = bookshelfSharedPrefs.getString("authors", "not found");
-        authors = processJson(temp);
-        temp = bookshelfSharedPrefs.getString("notes", "not found");
-        notes = processJson(temp);
-        temp = bookshelfSharedPrefs.getString("start", "not found");
-        start = processJson(temp);
-        temp = bookshelfSharedPrefs.getString("finish", "not found");
-        finish = processJson(temp);
-        temp = bookshelfSharedPrefs.getString("page", "not found");
-        currentPage = processJson(temp);
-        temp = bookshelfSharedPrefs.getString("toRead", "not found");
-        toRead = processJsonInt(temp);
-        temp = bookshelfSharedPrefs.getString("haveRead", "not found");
-        haveRead = processJsonInt(temp);
-        temp = bookshelfSharedPrefs.getString("reading", "not found");
-        reading = processJsonInt(temp);
+        temp = bookshelfSharedPrefs.getString("titles", null);
+        bookshelf.setTitles(processJson(temp));
+        temp = bookshelfSharedPrefs.getString("authors", null);
+        bookshelf.setAuthors(processJson(temp));
+        temp = bookshelfSharedPrefs.getString("notes", null);
+        bookshelf.setNotes(processJson(temp));
+        temp = bookshelfSharedPrefs.getString("start", null);
+        bookshelf.setStart(processJson(temp));
+        temp = bookshelfSharedPrefs.getString("finish", null);
+        bookshelf.setFinish(processJson(temp));
+        temp = bookshelfSharedPrefs.getString("page", null);
+        bookshelf.setCurrentPage(processJson(temp));
+        temp = bookshelfSharedPrefs.getString("toRead", null);
+        bookshelf.setCatBooks(1, processJsonInt(temp));
+        temp = bookshelfSharedPrefs.getString("haveRead", null);
+        bookshelf.setCatBooks(2, processJsonInt(temp));
+        temp = bookshelfSharedPrefs.getString("reading", null);
+        bookshelf.setCatBooks(0, processJsonInt(temp));
     }
 
+    /**
+     * Converts JSONString to an ArrayList<String>.
+     * @param JSONString JSONString to be converted.
+     * @return ArrayList equivalent to the provided JSONString.
+     */
+    private static ArrayList<String> processJson(String JSONString) {
+        JSONArray jsonBooks = null;
+        ArrayList<String> info = new ArrayList<>();
+
+        try {
+            jsonBooks = new JSONArray(JSONString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            for (int i = 0; i < jsonBooks.length(); i++) {
+                try {
+                    info.add((String) jsonBooks.get(i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }catch (NullPointerException e){}
+
+        return info;
+    }
+
+    /**
+     * Converts JSONString to an ArrayList<Integer>.
+     * @param JSONString JSONString to be converted.
+     * @return ArrayList equivalent to the provided JSONString.
+     */
+    private static ArrayList<Integer> processJsonInt(String JSONString) {
+        JSONArray jsonBooks = null;
+        ArrayList<Integer> info = new ArrayList<>();
+
+        try {
+            jsonBooks = new JSONArray(JSONString);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            for (int i = 0; i < jsonBooks.length(); i++) {
+                try {
+                    info.add(i, Integer.parseInt(jsonBooks.get(i).toString()));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (NullPointerException e) {e.printStackTrace();}
+
+        return info;
+    }
 }
