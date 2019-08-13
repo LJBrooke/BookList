@@ -50,13 +50,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        bookshelfSharedPrefs = getSharedPreferences("lucas.personal.book.BOOKLIST", AppCompatActivity.MODE_PRIVATE);
+        loadBookshelf();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         navView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        bookshelfSharedPrefs = getSharedPreferences("bookList", AppCompatActivity.MODE_PRIVATE);
-        loadBookshelf();
 
         showCategoryCards(bookshelf.getCatBooks());
         FloatingActionButton addBook = findViewById(R.id.addBookFAB);
@@ -71,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+
+        saveBookshelf();
 
         showCategoryCards(bookshelf.getCatBooks());
 
@@ -94,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void finish() {
 
+        saveBookshelf();
         super.finish();
     }
 
@@ -195,15 +198,15 @@ public class MainActivity extends AppCompatActivity {
         JSONArray jsonFinish = new JSONArray(bookshelf.getFinish());
         JSONArray jsonPage = new JSONArray(bookshelf.getCurrentPage());
 
-        bookshelfEditor.putString("toRead", jsonToRead.toString());
-        bookshelfEditor.putString("reading", jsonReading.toString());
-        bookshelfEditor.putString("haveRead", jsonHaveRead.toString());
-        bookshelfEditor.putString("titles", jsonTitles.toString());
-        bookshelfEditor.putString("authors", jsonAuthors.toString());
-        bookshelfEditor.putString("notes", jsonNotes.toString());
-        bookshelfEditor.putString("start", jsonStart.toString());
-        bookshelfEditor.putString("finish", jsonFinish.toString());
-        bookshelfEditor.putString("page", jsonPage.toString());
+        bookshelfEditor.putString("lucas.personal.book.TITLES", jsonTitles.toString());
+        bookshelfEditor.putString("lucas.personal.book.AUTHORS", jsonAuthors.toString());
+        bookshelfEditor.putString("lucas.personal.book.NOTES", jsonNotes.toString());
+        bookshelfEditor.putString("lucas.personal.book.START", jsonStart.toString());
+        bookshelfEditor.putString("lucas.personal.book.FINISH", jsonFinish.toString());
+        bookshelfEditor.putString("lucas.personal.book.PAGE", jsonPage.toString());
+        bookshelfEditor.putString("lucas.personal.book.TOREAD", jsonToRead.toString());
+        bookshelfEditor.putString("lucas.personal.book.HAVEREAD", jsonHaveRead.toString());
+        bookshelfEditor.putString("lucas.personal.book.READING", jsonReading.toString());
         bookshelfEditor.apply();
         System.out.println("FooBar save titles: " + jsonTitles.toString());
     }
@@ -213,25 +216,34 @@ public class MainActivity extends AppCompatActivity {
      */
     private void loadBookshelf(){
         String temp;
-        temp = bookshelfSharedPrefs.getString("titles", "Titles not found");
-        System.out.println("FooBar load temp: " + temp);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.TITLES", null);
+        System.out.println("FooBar load titles: " + temp);
         bookshelf.setTitles(processJson(temp));
-        temp = bookshelfSharedPrefs.getString("authors", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.AUTHORS", null);
+        System.out.println("FooBar load authors: " + temp);
         bookshelf.setAuthors(processJson(temp));
-        temp = bookshelfSharedPrefs.getString("notes", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.NOTES", null);
+        System.out.println("FooBar load notes: " + temp);
         bookshelf.setNotes(processJson(temp));
-        temp = bookshelfSharedPrefs.getString("start", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.START", null);
+        System.out.println("FooBar load start: " + temp);
         bookshelf.setStart(processJson(temp));
-        temp = bookshelfSharedPrefs.getString("finish", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.FINISH", null);
+        System.out.println("FooBar load finish: " + temp);
         bookshelf.setFinish(processJson(temp));
-        temp = bookshelfSharedPrefs.getString("page", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.PAGE", null);
+        System.out.println("FooBar load page: " + temp);
         bookshelf.setCurrentPage(processJson(temp));
-        temp = bookshelfSharedPrefs.getString("toRead", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.TOREAD", null);
+        System.out.println("FooBar load toRead: " + temp);
         bookshelf.setCatBooks(1, processJsonInt(temp));
-        temp = bookshelfSharedPrefs.getString("haveRead", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.HAVEREAD", null);
+        System.out.println("FooBar load haveRead: " + temp);
         bookshelf.setCatBooks(2, processJsonInt(temp));
-        temp = bookshelfSharedPrefs.getString("reading", null);
+        temp = bookshelfSharedPrefs.getString("lucas.personal.book.READING", null);
+        System.out.println("FooBar load reading: " + temp);
         bookshelf.setCatBooks(0, processJsonInt(temp));
+
     }
 
     /**
@@ -241,9 +253,11 @@ public class MainActivity extends AppCompatActivity {
      */
     private static ArrayList<String> processJson(String JSONString) {
         System.out.println("FooBar processJson: "+ JSONString);
+
+        if (JSONString==null){return new ArrayList<>();}
+
         JSONArray jsonBooks = null;
         ArrayList<String> info = new ArrayList<>();
-
         try {
             try {
                 jsonBooks = new JSONArray(JSONString);
