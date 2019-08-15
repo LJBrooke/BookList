@@ -1,5 +1,6 @@
 package lucas.personal.book;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,7 @@ public class cardAdaptor extends BaseAdapter {
 	 */
 	public static View displayBookCard(Context c, String title, String author, String note, String start, String finish, String page) {
 		LayoutInflater mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View v = mInflater.inflate(R.layout.book_info_expanded, null);
+		@SuppressLint("InflateParams") View v = mInflater.inflate(R.layout.book_info_expanded, null);
 		TextView titleView = v.findViewById(R.id.cardBookTitle);
 		TextView authorView = v.findViewById(R.id.cardBookAuthor);
 		TextView noteView = v.findViewById(R.id.cardBookNotes);
@@ -68,29 +69,6 @@ public class cardAdaptor extends BaseAdapter {
 			endView.setText(curPage);
 		} else {
 			endView.setText(finish);
-		}
-
-		return v;
-	}
-
-	/**
-	 * Creates an expanded bookcard view that displays the book at {@code index}.
-	 *
-	 * @param index Of the book to be viewed.
-	 */
-	public View viewBookCard(int index) {
-		View v = mInflater.inflate(R.layout.book_info_expanded, null);
-		TextView titleView = v.findViewById(R.id.cardBookTitle);
-		TextView authorView = v.findViewById(R.id.cardBookAuthor);
-		TextView noteView = v.findViewById(R.id.cardBookNotes);
-
-		titleView.setText(titles.get(index));
-		authorView.setText(authors.get(index));
-		noteView.setText(notes.get(index));
-
-		if (!currentPage.get(index).equals("")) {
-			noteView = v.findViewById(R.id.page);
-			noteView.setText(currentPage.get(index));
 		}
 
 		return v;
@@ -124,7 +102,7 @@ public class cardAdaptor extends BaseAdapter {
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
-		View v = mInflater.inflate(R.layout.book_info_card, null);
+		@SuppressLint("ViewHolder") View v = mInflater.inflate(R.layout.book_info_card, null);
 		TextView titleView = v.findViewById(R.id.cardBookTitle);
 		TextView authorView = v.findViewById(R.id.cardBookAuthor);
 		TextView noteView = v.findViewById(R.id.cardBookNotes);
