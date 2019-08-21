@@ -20,6 +20,7 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
+        android:focusable="true"
         app:srcCompat="@android:drawable/ic_input_add" />
 
     <FrameLayout
