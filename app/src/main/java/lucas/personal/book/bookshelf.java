@@ -2,7 +2,7 @@ package lucas.personal.book;
 
 import java.util.ArrayList;
 
-public class bookshelf {
+class bookshelf {
 	// Shelf Info:
 	private static ArrayList<Integer> reading;
 	private static ArrayList<Integer> toRead;
@@ -18,46 +18,12 @@ public class bookshelf {
 	private static ArrayList<String> currentPage;
 
 	/**
-	 * Function to add the provided info as a book.
-	 *
-	 * @param title      The new books title
-	 * @param author     The new books author
-	 * @param note       notes on the new book.
-	 * @param startDate  The new books startDate.
-	 * @param finishDate The new books finishDate.
-	 * @param page       The current page of the new book.
-	 * @param category   The new category for the book.
-	 */
-	public static void addBook(String title, String author, String note, String startDate, String finishDate, String page, int category) {
-		checkNull();
-
-		switch (category) {
-			case 0: {
-				reading.add(titles.size());
-			}
-			case 1: {
-				toRead.add(titles.size());
-			}
-			case 2: {
-				haveRead.add(titles.size());
-			}
-		}
-
-		titles.add(title);
-		authors.add(author);
-		notes.add(note);
-		start.add(startDate);
-		finish.add(finishDate);
-		currentPage.add(page);
-	}
-
-	/**
 	 * Function to add the provided book.
 	 *
 	 * @param newBook ArrayList of values for the book, in the format:
 	 *                *             {Title, Author, Notes, Start, Finish, Page}
 	 */
-	public static void addBook(ArrayList<String> newBook) {
+	static void addBook(ArrayList<String> newBook) {
 		checkNull();
 		int category = detCategory(newBook.get(3), newBook.get(4));
 		if (category == 0) {
@@ -75,45 +41,8 @@ public class bookshelf {
 			finish.add(newBook.get(4));
 			currentPage.add(newBook.get(5));
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
-		System.out.println("Foo newBook: " + newBook.toString());
-	}
-
-	/**
-	 * Function to edit the provided book. Book is located by the oldTitle.
-	 *
-	 * @param oldTitle   The unedited title of the book. Used to locate book.
-	 * @param title      The edited books new title
-	 * @param author     The edited books new author
-	 * @param note       notes on the edited book.
-	 * @param startDate  The edited books new startDate.
-	 * @param finishDate The edited books new books finishDate.
-	 * @param page       The current page of the edited book.
-	 */
-	public static void editBook(String oldTitle, String title, String author, String note, String startDate, String finishDate, String page) {
-		checkNull();
-		int category = detCategory(startDate, finishDate);
-		int index = titles.lastIndexOf(oldTitle);
-		removeFromCategory(index);
-		if (category == 0) {
-			reading.add(titles.size() - 1);
-			finishDate = "";
-		} else if (category == 1) {
-			toRead.add(titles.size() - 1);
-			startDate = "";
-			finishDate = "";
-			page = "";
-		} else if (category == 2) {
-			haveRead.add(titles.size() - 1);
-			page = "";
-		}
-
-		titles.set(index, title);
-		authors.set(index, author);
-		notes.set(index, note);
-		start.set(index, startDate);
-		finish.set(index, finishDate);
-		currentPage.set(index, page);
 	}
 
 	/**
@@ -123,7 +52,7 @@ public class bookshelf {
 	 * @param book     ArrayList of new values for the book, in the format:
 	 *                 {Title, Author, Notes, Start, Finish, Page}
 	 */
-	public static void editBook(String oldTitle, ArrayList<String> book) {
+	static void editBook(String oldTitle, ArrayList<String> book) {
 		int index = titles.indexOf(oldTitle);
 		int category = detCategory(book.get(3), book.get(4));
 		removeFromCategory(index);
@@ -153,7 +82,7 @@ public class bookshelf {
 	 *
 	 * @param categoryIndex The index of the selected book in the given category.
 	 */
-	public static void deleteBook(int categoryIndex) {
+	static void deleteBook(int categoryIndex) {
 		// ToDo add prompt.
 		if (titles == null) {
 			return;
@@ -173,44 +102,11 @@ public class bookshelf {
 	}
 
 	/**
-	 * Deletes the given book. Book is matched by Title.
-	 *
-	 * @param book ArrayList of the book to delete.
-	 */
-	public static void deleteBook(ArrayList<String> book) {
-		if (titles == null) {
-			return;
-		}
-
-		int i = getIndex(book.get(0));
-
-		removeFromCategory(i);
-		correctIndex(i);
-
-		titles.remove(i);
-		authors.remove(i);
-		notes.remove(i);
-		start.remove(i);
-		finish.remove(i);
-		currentPage.remove(i);
-	}
-
-	/**
-	 * Checks if a given book is stored.
-	 *
-	 * @param title Title of the book being checked for.
-	 * @return Boolean for if the book is stored.
-	 */
-	public static boolean onBookshelf(String title) {
-		return titles.contains(title);
-	}
-
-	/**
 	 * Sets the new category.
 	 *
 	 * @param newCategory The new Category.
 	 */
-	public static void setCurrentCategory(int newCategory) {
+	static void setCurrentCategory(int newCategory) {
 		currentCategory = newCategory;
 	}
 
@@ -219,7 +115,7 @@ public class bookshelf {
 	 *
 	 * @param category Chooses the category. 0 is reading, 1 is toRead and 2 is haveRead.
 	 */
-	public static void setCatBooks(int category, ArrayList<Integer> newCategory) {
+	static void setCatBooks(int category, ArrayList<Integer> newCategory) {
 		if (category == 0) {
 			reading = newCategory;
 		} else if (category == 1) {
@@ -229,17 +125,13 @@ public class bookshelf {
 		}
 	}
 
-	public static int getIndex(String title) {
-		return titles.lastIndexOf(title);
-	}
-
 	/**
 	 * Takes the index from a category and returns the overall index.
 	 *
 	 * @param categoryIndex the index of the book in the current category.
 	 * @return the overall index of the book.
 	 */
-	public static int getIndex(int categoryIndex) {
+	static int getIndex(int categoryIndex) {
 		if (currentCategory == 0) {
 			return reading.get(categoryIndex);
 		} else if (currentCategory == 1) {
@@ -249,24 +141,34 @@ public class bookshelf {
 	}
 
 	/**
+	 * Gives the book title at the specified index.
+	 *
+	 * @param categoryIndex The index of the book within it's current category not overall category.
+	 * @return Book Title of the book at categoryIndex.
+	 */
+	static String getBookTitle(int categoryIndex) {
+		return titles.get(getIndex(categoryIndex));
+	}
+
+	/**
 	 * Gives the books in the currently selected Category.
 	 *
 	 * @return ArrayList of Indexes for books in the current category.
 	 */
-	public static ArrayList<Integer> getCatBooks() {
+	static ArrayList<Integer> getCatBooks() {
 		if (currentCategory == 0) {
 			if (reading == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return reading;
 		} else if (currentCategory == 1) {
 			if (toRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return toRead;
 		} else if (currentCategory == 2) {
 			if (haveRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return haveRead;
 		}
@@ -279,20 +181,20 @@ public class bookshelf {
 	 * @param category Chooses the category. 0 is reading, 1 is toRead and 2 is haveRead.
 	 * @return ArrayList of Indexes for books in the specified category.
 	 */
-	public static ArrayList<Integer> getCatBooks(int category) {
+	static ArrayList<Integer> getCatBooks(int category) {
 		if (category == 0) {
 			if (reading == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return reading;
 		} else if (category == 1) {
 			if (toRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return toRead;
 		} else if (category == 2) {
 			if (haveRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return haveRead;
 		}
@@ -302,66 +204,66 @@ public class bookshelf {
 	/**
 	 * @return ArrayList of Current Titles
 	 */
-	public static ArrayList<String> getTitles() {
+	static ArrayList<String> getTitles() {
 		return titles;
 	}
 
-	public static void setTitles(ArrayList<String> newTitles) {
+	static void setTitles(ArrayList<String> newTitles) {
 		titles = newTitles;
 	}
 
 	/**
 	 * @return ArrayList of Current Authors
 	 */
-	public static ArrayList<String> getAuthors() {
+	static ArrayList<String> getAuthors() {
 		return authors;
 	}
 
-	public static void setAuthors(ArrayList<String> newAuthors) {
+	static void setAuthors(ArrayList<String> newAuthors) {
 		authors = newAuthors;
 	}
 
 	/**
 	 * @return ArrayList of Current Notes
 	 */
-	public static ArrayList<String> getNotes() {
+	static ArrayList<String> getNotes() {
 		return notes;
 	}
 
-	public static void setNotes(ArrayList<String> newNotes) {
+	static void setNotes(ArrayList<String> newNotes) {
 		notes = newNotes;
 	}
 
 	/**
 	 * @return ArrayList of Current start dates.
 	 */
-	public static ArrayList<String> getStart() {
+	static ArrayList<String> getStart() {
 		return start;
 	}
 
-	public static void setStart(ArrayList<String> newStart) {
+	static void setStart(ArrayList<String> newStart) {
 		start = newStart;
 	}
 
 	/**
 	 * @return ArrayList of Current finish dates.
 	 */
-	public static ArrayList<String> getFinish() {
+	static ArrayList<String> getFinish() {
 		return finish;
 	}
 
-	public static void setFinish(ArrayList<String> newFinish) {
+	static void setFinish(ArrayList<String> newFinish) {
 		finish = newFinish;
 	}
 
 	/**
 	 * @return ArrayList of Current Pages for books on the bookshelf.
 	 */
-	public static ArrayList<String> getCurrentPage() {
+	static ArrayList<String> getCurrentPage() {
 		return currentPage;
 	}
 
-	public static void setCurrentPage(ArrayList<String> newCurrentPage) {
+	static void setCurrentPage(ArrayList<String> newCurrentPage) {
 		currentPage = newCurrentPage;
 	}
 
@@ -372,7 +274,7 @@ public class bookshelf {
 	 * @return an ArrayList containing all relevant info on the desired book.
 	 * in the format {Title, Author, Notes, Start, Finish, Page}
 	 */
-	public static ArrayList<String> getBook(int index) {
+	static ArrayList<String> getBook(int index) {
 		ArrayList<String> book = new ArrayList<>(6);
 		if (titles.size() > 0) {
 			book.add(titles.get(index));
@@ -389,7 +291,7 @@ public class bookshelf {
 	 * Ensures Arraylists are never null. Check is only validated against title
 	 * as All other info would be useless without the title.
 	 */
-	public static void checkNull() {
+	static void checkNull() {
 		try {
 			titles.size();
 		} catch (NullPointerException e) {
