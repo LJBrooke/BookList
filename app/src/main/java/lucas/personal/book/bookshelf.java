@@ -58,15 +58,10 @@ class bookshelf {
 		removeFromCategory(index);
 		if (category == 0) {
 			reading.add(index);
-			book.set(4, "");
 		} else if (category == 1) {
 			toRead.add(index);
-			book.set(3, "");
-			book.set(4, "");
-			book.set(5, "");
 		} else if (category == 2) {
 			haveRead.add(index);
-			book.set(5, "");
 		}
 
 		titles.set(index, book.get(0));
@@ -83,7 +78,6 @@ class bookshelf {
 	 * @param categoryIndex The index of the selected book in the given category.
 	 */
 	static void deleteBook(int categoryIndex) {
-		// ToDo add prompt.
 		if (titles == null) {
 			return;
 		}
@@ -364,10 +358,10 @@ class bookshelf {
 	 * @return 0 for now reading, 1 for toRead and 2 for haveRead.
 	 */
 	private static int detCategory(String startDate, String endDate) {
-		if (endDate.length() > 1) {
+		if (endDate.length() > 0) {
 			return 2;
 		}
-		if (startDate.length() > 1) {
+		if (startDate.length() > 0) {
 			return 0;
 		}
 		return 1;
