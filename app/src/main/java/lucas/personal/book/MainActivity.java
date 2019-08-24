@@ -21,6 +21,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity {
 	ListView bookCards;
 	private SharedPreferences bookshelfSharedPrefs;

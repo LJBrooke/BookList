@@ -20,7 +20,7 @@ public class cardAdaptor extends BaseAdapter {
 	private ArrayList<String> finishDate;
 	private ArrayList<String> currentPage;
 
-	protected cardAdaptor(Context c, ArrayList<String> titles, ArrayList<String> authors, ArrayList<String> notes, ArrayList<String> startDate, ArrayList<String> finishDate, ArrayList<String> currentPage) {
+	cardAdaptor(Context c, ArrayList<String> titles, ArrayList<String> authors, ArrayList<String> notes, ArrayList<String> startDate, ArrayList<String> finishDate, ArrayList<String> currentPage) {
 		this.titles = titles;
 		this.authors = authors;
 		this.notes = notes;
@@ -43,8 +43,9 @@ public class cardAdaptor extends BaseAdapter {
 	 * @param page   The current page of the book.
 	 * @return A view containing the given information.
 	 */
-	public static View displayBookCard(Context c, String title, String author, String note, String start, String finish, String page) {
+	static View displayBookCard(Context c, String title, String author, String note, String start, String finish, String page) {
 		LayoutInflater mInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		assert mInflater != null;
 		@SuppressLint("InflateParams") View v = mInflater.inflate(R.layout.book_info_expanded, null);
 		TextView titleView = v.findViewById(R.id.cardBookTitle);
 		TextView authorView = v.findViewById(R.id.cardBookAuthor);
@@ -102,7 +103,8 @@ public class cardAdaptor extends BaseAdapter {
 
 	@Override
 	public View getView(int i, View view, ViewGroup viewGroup) {
-		@SuppressLint("ViewHolder") View v = mInflater.inflate(R.layout.book_info_card, null);
+		@SuppressLint({"ViewHolder", "InflateParams"})
+		View v = mInflater.inflate(R.layout.book_info_card, null);
 		TextView titleView = v.findViewById(R.id.cardBookTitle);
 		TextView authorView = v.findViewById(R.id.cardBookAuthor);
 		TextView noteView = v.findViewById(R.id.cardBookNotes);

@@ -1,5 +1,7 @@
 package lucas.personal.book;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
 class bookshelf {
@@ -175,6 +177,7 @@ class bookshelf {
 	 * @param category Chooses the category. 0 is reading, 1 is toRead and 2 is haveRead.
 	 * @return ArrayList of Indexes for books in the specified category.
 	 */
+	@NonNull
 	static ArrayList<Integer> getCatBooks(int category) {
 		if (category == 0) {
 			if (reading == null) {
@@ -192,7 +195,7 @@ class bookshelf {
 			}
 			return haveRead;
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
 	/**
