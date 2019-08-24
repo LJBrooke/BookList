@@ -256,20 +256,19 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	protected void queryDelete(final int categoryIndex) {
-		// ToDo: Add Remember Save State
+		// ToDo: Add Remember scroll State
 		AlertDialog.Builder prompt = new AlertDialog.Builder(MainActivity.this)
-				.setTitle("Delete entry")
-				.setMessage("Are you sure you want to delete this entry?")
+				.setIcon(android.R.drawable.ic_menu_delete)
+				.setTitle("Delete Book")
+				.setMessage("Are you sure you want to delete " + bookshelf.getBookTitle(categoryIndex) + " ?")
 				.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int which) {
 						bookshelf.deleteBook(categoryIndex);
 						showCategoryCards(bookshelf.getCatBooks());
 					}
 				})
-				.setNegativeButton(android.R.string.no, null)
-				.setIcon(android.R.drawable.ic_dialog_alert);
-		AlertDialog deletePrompt = prompt.create();
-		deletePrompt.show();
+				.setNegativeButton(android.R.string.no, null);
+		prompt.show();
 	}
 
 	/**
