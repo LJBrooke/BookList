@@ -1,8 +1,10 @@
 package lucas.personal.book;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 
-public class bookshelf {
+class bookshelf {
 	// Shelf Info:
 	private static ArrayList<Integer> reading;
 	private static ArrayList<Integer> toRead;
@@ -16,40 +18,6 @@ public class bookshelf {
 	private static ArrayList<String> start;
 	private static ArrayList<String> finish;
 	private static ArrayList<String> currentPage;
-
-	/**
-	 * Function to add the provided info as a book.
-	 *
-	 * @param title      The new books title
-	 * @param author     The new books author
-	 * @param note       notes on the new book.
-	 * @param startDate  The new books startDate.
-	 * @param finishDate The new books finishDate.
-	 * @param page       The current page of the new book.
-	 * @param category   The new category for the book.
-	 */
-	public static void addBook(String title, String author, String note, String startDate, String finishDate, String page, int category) {
-		checkNull();
-
-		switch (category) {
-			case 0: {
-				reading.add(titles.size());
-			}
-			case 1: {
-				toRead.add(titles.size());
-			}
-			case 2: {
-				haveRead.add(titles.size());
-			}
-		}
-
-		titles.add(title);
-		authors.add(author);
-		notes.add(note);
-		start.add(startDate);
-		finish.add(finishDate);
-		currentPage.add(page);
-	}
 
 	/**
 	 * Function to add the provided book.
@@ -75,45 +43,8 @@ public class bookshelf {
 			finish.add(newBook.get(4));
 			currentPage.add(newBook.get(5));
 		} catch (NullPointerException e) {
+			e.printStackTrace();
 		}
-		System.out.println("Foo newBook: " + newBook.toString());
-	}
-
-	/**
-	 * Function to edit the provided book. Book is located by the oldTitle.
-	 *
-	 * @param oldTitle   The unedited title of the book. Used to locate book.
-	 * @param title      The edited books new title
-	 * @param author     The edited books new author
-	 * @param note       notes on the edited book.
-	 * @param startDate  The edited books new startDate.
-	 * @param finishDate The edited books new books finishDate.
-	 * @param page       The current page of the edited book.
-	 */
-	public static void editBook(String oldTitle, String title, String author, String note, String startDate, String finishDate, String page) {
-		checkNull();
-		int category = detCategory(startDate, finishDate);
-		int index = titles.lastIndexOf(oldTitle);
-		removeFromCategory(index);
-		if (category == 0) {
-			reading.add(titles.size() - 1);
-			finishDate = "";
-		} else if (category == 1) {
-			toRead.add(titles.size() - 1);
-			startDate = "";
-			finishDate = "";
-			page = "";
-		} else if (category == 2) {
-			haveRead.add(titles.size() - 1);
-			page = "";
-		}
-
-		titles.set(index, title);
-		authors.set(index, author);
-		notes.set(index, note);
-		start.set(index, startDate);
-		finish.set(index, finishDate);
-		currentPage.set(index, page);
 	}
 
 	/**
@@ -129,15 +60,10 @@ public class bookshelf {
 		removeFromCategory(index);
 		if (category == 0) {
 			reading.add(index);
-			book.set(4, "");
 		} else if (category == 1) {
 			toRead.add(index);
-			book.set(3, "");
-			book.set(4, "");
-			book.set(5, "");
 		} else if (category == 2) {
 			haveRead.add(index);
-			book.set(5, "");
 		}
 
 		titles.set(index, book.get(0));
@@ -154,7 +80,6 @@ public class bookshelf {
 	 * @param categoryIndex The index of the selected book in the given category.
 	 */
 	static void deleteBook(int categoryIndex) {
-		// ToDo add prompt.
 		if (titles == null) {
 			return;
 		}
@@ -170,39 +95,6 @@ public class bookshelf {
 		start.remove(universalIndex);
 		finish.remove(universalIndex);
 		currentPage.remove(universalIndex);
-	}
-
-	/**
-	 * Deletes the given book. Book is matched by Title.
-	 *
-	 * @param book ArrayList of the book to delete.
-	 */
-	public static void deleteBook(ArrayList<String> book) {
-		if (titles == null) {
-			return;
-		}
-
-		int i = getIndex(book.get(0));
-
-		removeFromCategory(i);
-		correctIndex(i);
-
-		titles.remove(i);
-		authors.remove(i);
-		notes.remove(i);
-		start.remove(i);
-		finish.remove(i);
-		currentPage.remove(i);
-	}
-
-	/**
-	 * Checks if a given book is stored.
-	 *
-	 * @param title Title of the book being checked for.
-	 * @return Boolean for if the book is stored.
-	 */
-	public static boolean onBookshelf(String title) {
-		return titles.contains(title);
 	}
 
 	/**
@@ -249,6 +141,16 @@ public class bookshelf {
 	}
 
 	/**
+	 * Gives the book title at the specified index.
+	 *
+	 * @param categoryIndex The index of the book within it's current category not overall category.
+	 * @return Book Title of the book at categoryIndex.
+	 */
+	static String getBookTitle(int categoryIndex) {
+		return titles.get(getIndex(categoryIndex));
+	}
+
+	/**
 	 * Gives the books in the currently selected Category.
 	 *
 	 * @return ArrayList of Indexes for books in the current category.
@@ -256,17 +158,17 @@ public class bookshelf {
 	static ArrayList<Integer> getCatBooks() {
 		if (currentCategory == 0) {
 			if (reading == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return reading;
 		} else if (currentCategory == 1) {
 			if (toRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return toRead;
 		} else if (currentCategory == 2) {
 			if (haveRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return haveRead;
 		}
@@ -279,24 +181,25 @@ public class bookshelf {
 	 * @param category Chooses the category. 0 is reading, 1 is toRead and 2 is haveRead.
 	 * @return ArrayList of Indexes for books in the specified category.
 	 */
+	@NonNull
 	static ArrayList<Integer> getCatBooks(int category) {
 		if (category == 0) {
 			if (reading == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return reading;
 		} else if (category == 1) {
 			if (toRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return toRead;
 		} else if (category == 2) {
 			if (haveRead == null) {
-				return new ArrayList<Integer>();
+				return new ArrayList<>();
 			}
 			return haveRead;
 		}
-		return null;
+		return new ArrayList<>();
 	}
 
 	/**
@@ -382,7 +285,7 @@ public class bookshelf {
 	}
 
 	/**
-	 * Ensures Arraylists are never null. Check is only validated against title
+	 * Ensures ArrayLists are never null. Check is only validated against title
 	 * as All other info would be useless without the title.
 	 */
 	static void checkNull() {
@@ -422,7 +325,7 @@ public class bookshelf {
 	}
 
 	/**
-	 * Deincrements all indexes bigger than the given index.
+	 * De-increments all indexes bigger than the given index.
 	 * Intended for use when an index has been deleted and the
 	 * remaining indexes need corrections.
 	 *
@@ -458,10 +361,10 @@ public class bookshelf {
 	 * @return 0 for now reading, 1 for toRead and 2 for haveRead.
 	 */
 	private static int detCategory(String startDate, String endDate) {
-		if (endDate.length() > 1) {
+		if (endDate.length() > 0) {
 			return 2;
 		}
-		if (startDate.length() > 1) {
+		if (startDate.length() > 0) {
 			return 0;
 		}
 		return 1;

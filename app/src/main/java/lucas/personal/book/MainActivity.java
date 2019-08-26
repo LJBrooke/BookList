@@ -1,5 +1,7 @@
 package lucas.personal.book;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("ConstantConditions")
 public class MainActivity extends AppCompatActivity {
 	ListView bookCards;
 	private SharedPreferences bookshelfSharedPrefs;
@@ -161,8 +164,7 @@ public class MainActivity extends AppCompatActivity {
 		bookCards.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-				bookshelf.deleteBook(i);
-				onStart();
+				queryDelete(i);
 				return true;
 			}
 		});
@@ -220,17 +222,6 @@ public class MainActivity extends AppCompatActivity {
 	}
 
 	/**
-	 * Shows all cards. Irrespective of the books category.
-	 */
-	protected void showAllCards() {
-
-		bookCards = findViewById(R.id.bookCards);
-		//ToDo Create new method for this implementation.
-		cardAdaptor adapter = new cardAdaptor(this, bookshelf.getTitles(), bookshelf.getAuthors(), bookshelf.getNotes(), bookshelf.getStart(), bookshelf.getFinish(), bookshelf.getCurrentPage());
-		bookCards.setAdapter(adapter);
-	}
-
-	/**
 	 * Uses cardAdaptor to display all cards from the given category.
 	 *
 	 * @param category An ArrayList of the indexes of all books in the desired category.
@@ -265,6 +256,22 @@ public class MainActivity extends AppCompatActivity {
 		bookCards = findViewById(R.id.bookCards);
 		cardAdaptor adapter = new cardAdaptor(this, catTitles, catAuthors, catNotes, catStart, catFinish, catCurrentPage);
 		bookCards.setAdapter(adapter);
+	}
+
+	protected void queryDelete(final int categoryIndex) {
+		// ToDo: Add Remember scroll State
+		AlertDialog.Builder prompt = new AlertDialog.Builder(MainActivity.this)
+				.setIcon(android.R.drawable.ic_menu_delete)
+				.setTitle("Delete Book")
+				.setMessage("Are you sure you want to delete " + bookshelf.getBookTitle(categoryIndex) + " ?")
+				.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						bookshelf.deleteBook(categoryIndex);
+						showCategoryCards(bookshelf.getCatBooks());
+					}
+				})
+				.setNegativeButton(android.R.string.no, null);
+		prompt.show();
 	}
 
 	/**

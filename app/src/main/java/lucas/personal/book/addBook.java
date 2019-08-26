@@ -23,6 +23,7 @@ public class addBook extends AppCompatActivity {
 
 		intent = getIntent();
 		if (intent.hasExtra("lucas.personal.book.BOOKTOEDIT")) {
+			//noinspection ConstantConditions
 			setInfo(intent.getStringArrayListExtra("lucas.personal.book.BOOKTOEDIT"));
 		}
 
