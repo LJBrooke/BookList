@@ -20,7 +20,8 @@
         app:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:focusable="true" />
 
     <FrameLayout
         android:layout_width="0dp"
@@ -56,12 +57,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:accessibilityLiveRegion="none"
-        android:background="@color/colorPrimaryBackground"
         android:elevation="8dp"
-        app:itemIconTint="@color/colorTertiary"
-        app:itemTextAppearanceActive="@style/AppTheme"
+        app:itemIconTint="#ABADAFB1"
+        app:itemTextAppearanceActive="@style/Theme.MaterialComponents.Light"
         app:itemTextColor="@color/colorTertiary"
-        app:labelVisibilityMode="auto"
+        app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

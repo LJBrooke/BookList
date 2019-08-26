@@ -22,7 +22,6 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 	ListView bookCards;
 	private SharedPreferences bookshelfSharedPrefs;
-	private SharedPreferences.Editor bookshelfEditor;
 
 	private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
 			= new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -150,9 +149,11 @@ public class MainActivity extends AppCompatActivity {
 
 		showCategoryCards(bookshelf.getCatBooks());
 
+		System.out.println("FooBar setting up onClickListenenrs");
 		bookCards.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				System.out.println("FooBar Click");
 				viewBookCard(i);
 			}
 		});
@@ -272,7 +273,7 @@ public class MainActivity extends AppCompatActivity {
 	private void saveBookshelf() {
 		bookshelf.checkNull();
 
-		bookshelfEditor = bookshelfSharedPrefs.edit();
+		SharedPreferences.Editor bookshelfEditor = bookshelfSharedPrefs.edit();
 
 		JSONArray jsonReading = new JSONArray(bookshelf.getCatBooks(0));
 		JSONArray jsonToRead = new JSONArray(bookshelf.getCatBooks(1));
